@@ -307,9 +307,7 @@ export default function Index() {
   };
 
   const resetMonth = () => {
-    const confirmed = window.confirm(
-      "Are you sure you want to reset all progress for this month? This cannot be undone.",
-    );
+    const confirmed = window.confirm(t.challenge.resetConfirmMessage);
     if (confirmed) {
       setHabits((current) =>
         current.map((habit) => ({

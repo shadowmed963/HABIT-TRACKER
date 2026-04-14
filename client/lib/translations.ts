@@ -282,6 +282,8 @@ export interface Translations {
     challengeActive: string;
     challengeLive: string;
     challengeDesc: string;
+    resetButton: string;
+    resetConfirmMessage: string;
   };
   grid: {
     gridLabel: string;
@@ -577,6 +579,8 @@ const translations: Record<Language, Translations> = {
       challengeActive: "Challenge Active",
       challengeLive: "30-Day Challenge Live",
       challengeDesc: "Track your habits daily and build lasting routines",
+      resetButton: "Reset Challenge",
+      resetConfirmMessage: "Are you sure you want to reset all progress for this month? This cannot be undone.",
     },
     auth: {
       personalSpace: "Your personal habit space",
@@ -899,6 +903,8 @@ const translations: Record<Language, Translations> = {
       challengeActive: "التحدي نشط",
       challengeLive: "تحدي 30 يوماً مباشر",
       challengeDesc: "تتبع عاداتك يومياً وبني روتينات دائمة",
+      resetButton: "إعادة تشغيل التحدي",
+      resetConfirmMessage: "هل أنت متأكد من أنك تريد إعادة تشغيل جميع التقدم لهذا الشهر؟ لن يتمكن من التراجع عن هذا.",
     },
     auth: {
       personalSpace: "مساحة العادات الشخصية",
@@ -1221,6 +1227,8 @@ const translations: Record<Language, Translations> = {
       challengeActive: "Défi Actif",
       challengeLive: "Défi de 30 Jours En Direct",
       challengeDesc: "Suivez vos habitudes quotidiennement et établissez des routines durables",
+      resetButton: "Réinitialiser le Défi",
+      resetConfirmMessage: "Êtes-vous sûr de vouloir réinitialiser toute la progression pour ce mois? Cela ne peut pas être annulé.",
     },
     auth: {
       personalSpace: "Votre espace personnel d'habitudes",
