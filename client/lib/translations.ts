@@ -243,8 +243,10 @@ export interface Translations {
     habitsActive: string;
   };
   quickAdd: {
-    addHabitsTitle: string;
-    addHabitsDesc: string;
+    title: string;
+    subtitle: string;
+    placeholder: string;
+    addBtn: string;
   };
   auth: {
     personalSpace: string;
@@ -565,8 +567,10 @@ const translations: Record<Language, Translations> = {
       habitsActive: "Active habits",
     },
     quickAdd: {
-      addHabitsTitle: "Add more habits",
-      addHabitsDesc: "Customize your 30-day challenge. Add, edit, or remove habits anytime.",
+      title: "Quick Add",
+      subtitle: "Add a new habit to your 30-day challenge",
+      placeholder: "Enter habit name...",
+      addBtn: "Add Habit",
     },
     challenge: {
       startWithAI: "Get personalized habits from AI",
@@ -885,8 +889,10 @@ const translations: Record<Language, Translations> = {
       habitsActive: "عادات نشطة",
     },
     quickAdd: {
-      addHabitsTitle: "إضافة عادات أخرى",
-      addHabitsDesc: "خصص تحديك لـ 30 يوم. أضف أو عدّل أو احذف عادات في أي وقت.",
+      title: "إضافة سريعة",
+      subtitle: "أضف عادة جديدة لتحديك لـ 30 يوم",
+      placeholder: "أدخل اسم العادة...",
+      addBtn: "إضافة عادة",
     },
     challenge: {
       startWithAI: "احصل على عادات شخصية من الذكاء الاصطناعي",
@@ -1205,8 +1211,10 @@ const translations: Record<Language, Translations> = {
       habitsActive: "Habitudes actives",
     },
     quickAdd: {
-      addHabitsTitle: "Ajouter plus d'habitudes",
-      addHabitsDesc: "Personnalisez votre défi de 30 jours. Ajoutez, modifiez ou supprimez des habitudes à tout moment.",
+      title: "Ajout Rapide",
+      subtitle: "Ajoutez une nouvelle habitude à votre défi de 30 jours",
+      placeholder: "Entrez le nom de l'habitude...",
+      addBtn: "Ajouter Habitude",
     },
     challenge: {
       startWithAI: "Obtenez des habitudes personnalisées de l'IA",
