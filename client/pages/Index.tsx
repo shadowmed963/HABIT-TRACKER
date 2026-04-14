@@ -4,6 +4,8 @@ import HabitCards from "@/components/habit-tracker/HabitCards";
 import EmptyState from "@/components/habit-tracker/EmptyState";
 import ProgressCircle from "@/components/habit-tracker/ProgressCircle";
 import StatisticsPanel from "@/components/habit-tracker/StatisticsPanel";
+import HabitGrid from "@/components/habit-tracker/HabitGrid";
+import ProgressOverview from "@/components/habit-tracker/ProgressOverview";
 import {
   createHabitItem,
   slugify,
@@ -548,8 +550,8 @@ export default function Index() {
                 <h3 className="text-base font-semibold sm:text-lg">{t.hero.quickLinks || 'Quick Links'}</h3>
               </div>
               <div className="flex gap-2 sm:gap-3">
-                <a href="/grid" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openGrid || 'Open Grid'}</a>
-                <a href="/chart" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openChart || 'Open Chart'}</a>
+                <a href="#grid" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openGrid || 'Open Grid'}</a>
+                <a href="#chart" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openChart || 'Open Chart'}</a>
               </div>
             </div>
             <p className="mt-2 text-xs text-muted-foreground sm:text-sm sm:mt-3">Open the full grid and progress chart on separate pages for a focused view.</p>
@@ -567,6 +569,27 @@ export default function Index() {
               </div>
             </div>
           </section>
+
+            {/* Full Grid section (restored to homepage) */}
+            <section id="grid" className="rounded-[20px] border border-border bg-card/88 p-4 shadow-sm sm:rounded-[30px] sm:p-5 sm:shadow mt-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold text-foreground">{t.habits.gridTitle || 'Habit Grid'}</h2>
+              </div>
+              <div className="mt-4">
+                <HabitGrid
+                  habits={habits}
+                  onToggleDay={toggleDay}
+                  onRemoveHabit={removeHabit}
+                  onMarkTodayComplete={markTodayComplete}
+                  onSetNotification={() => {}}
+                />
+              </div>
+            </section>
+
+            {/* Full Progress chart (restored to homepage) */}
+            <section id="chart" className="rounded-[20px] border border-border bg-card/88 p-4 shadow-sm sm:rounded-[30px] sm:p-5 sm:shadow mt-4">
+              <ProgressOverview habits={habits} />
+            </section>
 
           {showAIQuiz && onboardingComplete && (
             <div
