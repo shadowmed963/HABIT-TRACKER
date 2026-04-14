@@ -13,6 +13,9 @@ export interface Translations {
     dayTracked: string;
     challengeStatus: string;
     resetChallenge: string;
+    quickLinks: string;
+    openGrid: string;
+    openChart: string;
   };
   quiz: {
     title: string;
@@ -409,10 +412,7 @@ const translations: Record<Language, Translations> = {
         mental: "Puzzles • Reading • Memory exercises • Journaling • Problem-solving drills",
         physical: "Walks/runs • HIIT • Flexibility work • Posture breaks • Short workouts",
         religious: "Prayer • Quran reading • Remembrance • Acts of charity • Spiritual reflection",
-          resetChallenge: "إعادة التحدي",
-          quickLinks: "روابط سريعة",
-          openGrid: "افتح الشبكة",
-          openChart: "افتح المخطط",
+        study: "Focused learning • Note-taking • Problem practice • Active review",
         mixed: "Combine light exercise + study time + mindfulness",
         mindfulness: "Breath awareness • Body scan • Meditative walk • Present moment journaling",
         work: "Pomodoro timers • Task batching • Email sorting • Morning planning",
@@ -429,10 +429,6 @@ const translations: Record<Language, Translations> = {
     options: {
       productivity: "Productivity",
       health: "Health",
-          resetChallenge: "Réinitialiser le défi",
-          quickLinks: "Liens rapides",
-          openGrid: "Ouvrir la grille",
-          openChart: "Ouvrir le graphique",
       study: "Study",
       discipline: "Discipline",
       learning: "Learning",
@@ -680,6 +676,9 @@ const translations: Record<Language, Translations> = {
       dayTracked: "أيام مُتتبعة",
       challengeStatus: "حالة التحدي",
       resetChallenge: "إعادة تشغيل التحدي",
+      quickLinks: "روابط سريعة",
+      openGrid: "افتح الشبكة",
+      openChart: "افتح المخطط",
     },
     quiz: {
       title: "دعنا نبني عاداتك الشخصية",
@@ -1008,6 +1007,9 @@ const translations: Record<Language, Translations> = {
       dayTracked: "Jours suivis",
       challengeStatus: "Statut du défi",
       resetChallenge: "Réinitialiser le défi",
+      quickLinks: "Liens rapides",
+      openGrid: "Ouvrir la grille",
+      openChart: "Ouvrir le graphique",
     },
     quiz: {
       title: "Construisons vos habitudes",
