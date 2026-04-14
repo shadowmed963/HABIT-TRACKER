@@ -29,6 +29,8 @@ export interface HabitItem {
   category: string;
   cadence: string;
   completions: boolean[];
+  notificationTime?: string; // HH:mm format, e.g., "08:30"
+  notificationEnabled?: boolean;
 }
 
 export const QUIZ_QUESTIONS: readonly QuizQuestion<string>[] = [

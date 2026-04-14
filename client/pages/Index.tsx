@@ -1,7 +1,7 @@
 import AuthPanel, { type AuthMode } from "@/components/habit-tracker/AuthPanel";
 import AIHabitQuiz from "@/components/habit-tracker/AIHabitQuiz";
-import HabitGrid from "@/components/habit-tracker/HabitGrid";
-import ProgressOverview from "@/components/habit-tracker/ProgressOverview";
+import HabitCards from "@/components/habit-tracker/HabitCards";
+import EmptyState from "@/components/habit-tracker/EmptyState";
 import ProgressCircle from "@/components/habit-tracker/ProgressCircle";
 import StatisticsPanel from "@/components/habit-tracker/StatisticsPanel";
 import {
@@ -337,7 +337,7 @@ export default function Index() {
       ) : !activeUser ? (
         <AuthPanel hasExistingUsers={hasStoredUsers} onSubmit={handleAuthSubmit} />
       ) : (
-        <div className="space-y-4 sm:space-y-5">
+        <div className="space-y-3 sm:space-y-5">
           <section className="overflow-hidden rounded-[32px] bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.95),rgba(240,237,255,0.9)_38%,rgba(216,250,237,0.72)_100%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(40,35,70,0.8),rgba(35,30,60,0.75)_38%,rgba(30,25,55,0.7)_100%)] p-5 shadow-[0_32px_90px_rgba(77,73,122,0.18)] ring-1 ring-ring/70 sm:p-7">
             <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-xl">
@@ -481,8 +481,28 @@ export default function Index() {
                     <Sparkles className="h-4 w-4" />
                     Suggest habits with AI
                   </button>
+                  
                 </div>
               </div>
+            </section>
+          )}
+
+          {onboardingComplete && habits.length > 0 && (
+            <section
+              className="rounded-[20px] border border-border bg-card/88 p-3 shadow-sm sm:rounded-[30px] sm:p-4 sm:shadow"
+            >
+              <h3 className="text-xs font-semibold uppercase tracking-widest text-muted-foreground sm:text-sm">
+                Your Habits at a Glance
+              </h3>
+              <div className="mt-3 sm:mt-4">
+                <HabitCards habits={habits} />
+              </div>
+            </section>
+          )}
+
+          {onboardingComplete && habits.length === 0 && (
+            <section className="rounded-[30px] border border-border bg-card/88 shadow-[0_24px_70px_rgba(77,73,122,0.12)]">
+              <EmptyState onCreateHabit={() => setShowAIQuiz(true)} />
             </section>
           )}
 
@@ -504,17 +524,17 @@ export default function Index() {
               </div>
             </div>
 
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:gap-3">
               <input
                 value={quickHabit}
                 onChange={(event) => setQuickHabit(event.target.value)}
                 placeholder={t.quickAdd.placeholder}
-                className="h-12 flex-1 rounded-2xl border border-border bg-secondary/30 px-4 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary"
+                className="h-11 flex-1 rounded-xl border border-border bg-secondary/30 px-3 text-sm outline-none transition placeholder:text-muted-foreground focus:border-primary sm:h-12 sm:rounded-2xl sm:px-4"
               />
               <button
                 type="button"
                 onClick={addQuickHabit}
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_18px_40px_rgba(109,94,252,0.28)] transition hover:translate-y-[-1px]"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-primary px-4 text-sm font-semibold text-primary-foreground shadow-[0_18px_40px_rgba(109,94,252,0.28)] transition hover:translate-y-[-1px] sm:h-12 sm:rounded-2xl sm:px-5"
               >
                 <Plus className="h-4 w-4" />
                 {t.quickAdd.addBtn}
@@ -522,31 +542,31 @@ export default function Index() {
             </div>
           </section>
 
-          {habits.length > 0 && <ProgressCircle habits={habits} />}
-
-          <ProgressOverview habits={habits} />
-
-          <StatisticsPanel habits={habits} />
-
-          {habits.length ? (
-            <HabitGrid
-              habits={habits}
-              onToggleDay={toggleDay}
-              onRemoveHabit={removeHabit}
-              onMarkTodayComplete={markTodayComplete}
-            />
-          ) : (
-            <section
-              className="rounded-[30px] border border-dashed border-primary/30 bg-primary/5 p-8 text-center shadow-sm"
-            >
+          <section className="rounded-[20px] border border-border bg-card/88 p-4 shadow-sm sm:rounded-[30px] sm:p-5 sm:shadow">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-xl font-semibold text-foreground">Your 30-day grid is ready</h2>
+                <h3 className="text-base font-semibold sm:text-lg">{t.hero.quickLinks || 'Quick Links'}</h3>
               </div>
-              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
-                {t.challenge.startWithAI}
-              </p>
-            </section>
-          )}
+              <div className="flex gap-2 sm:gap-3">
+                <a href="/grid" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openGrid || 'Open Grid'}</a>
+                <a href="/chart" className="btn btn-ghost text-xs sm:text-sm">{t.hero.openChart || 'Open Chart'}</a>
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-muted-foreground sm:text-sm sm:mt-3">Open the full grid and progress chart on separate pages for a focused view.</p>
+            <div className="mt-3 grid grid-cols-1 gap-3 sm:mt-4 sm:gap-4">
+              <div className="rounded-[16px] bg-card/85 p-3 shadow-sm ring-1 ring-ring/60 sm:rounded-[20px] sm:p-4">
+                {habits.length > 0 ? (
+                  <ProgressCircle habits={habits} />
+                ) : (
+                  <p className="text-xs text-muted-foreground sm:text-sm">{t.common.addHabitsToSeeChart || 'Add habits to see your progress'}</p>
+                )}
+              </div>
+
+              <div className="rounded-[16px] bg-card/85 p-3 shadow-sm ring-1 ring-ring/60 sm:rounded-[20px] sm:p-4">
+                <StatisticsPanel habits={habits} />
+              </div>
+            </div>
+          </section>
 
           {showAIQuiz && onboardingComplete && (
             <div

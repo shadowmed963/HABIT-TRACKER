@@ -16,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 246 27% 18%;
 
-    --primary: 248 95% 68%;
+    --primary: 142 71% 45%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 250 38% 95%;
+    --secondary: 217 32% 92%;
     --secondary-foreground: 246 27% 24%;
 
     --muted: 250 30% 94%;
@@ -33,18 +33,24 @@
 
     --border: 248 30% 88%;
     --input: 248 30% 88%;
-    --ring: 248 95% 68%;
+    --ring: 142 71% 45%;
 
     --radius: 1.25rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 246 27% 18%;
-    --sidebar-primary: 248 95% 68%;
+    --sidebar-primary: 142 71% 45%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 250 38% 95%;
+    --sidebar-accent: 217 32% 92%;
     --sidebar-accent-foreground: 246 27% 24%;
     --sidebar-border: 248 30% 88%;
-    --sidebar-ring: 248 95% 68%;
+    --sidebar-ring: 142 71% 45%;
+
+    /* Gradient colors for charts and accents */
+    --gradient-primary-from: #22c55e;
+    --gradient-primary-to: #86efac;
+    --gradient-accent-from: #0ea5e9;
+    --gradient-accent-to: #38bdf8;
   }
 
   .dark {
@@ -57,16 +63,16 @@
     --popover: 246 28% 14%;
     --popover-foreground: 240 38% 96%;
 
-    --primary: 248 95% 74%;
+    --primary: 142 76% 52%;
     --primary-foreground: 246 35% 12%;
 
-    --secondary: 246 19% 20%;
+    --secondary: 217 20% 25%;
     --secondary-foreground: 240 38% 96%;
 
     --muted: 246 19% 20%;
     --muted-foreground: 243 14% 72%;
 
-    --accent: 156 24% 22%;
+    --accent: 217 40% 35%;
     --accent-foreground: 154 42% 88%;
 
     --destructive: 0 72% 56%;
@@ -74,16 +80,21 @@
 
     --border: 246 18% 24%;
     --input: 246 18% 24%;
-    --ring: 248 95% 74%;
+    --ring: 142 76% 52%;
 
     --sidebar-background: 246 28% 14%;
     --sidebar-foreground: 240 38% 96%;
-    --sidebar-primary: 248 95% 74%;
+    --sidebar-primary: 142 76% 52%;
     --sidebar-primary-foreground: 246 35% 12%;
-    --sidebar-accent: 246 19% 20%;
+    --sidebar-accent: 217 20% 25%;
     --sidebar-accent-foreground: 240 38% 96%;
     --sidebar-border: 246 18% 24%;
-    --sidebar-ring: 248 95% 74%;
+    --sidebar-ring: 142 76% 52%;
+
+    --gradient-primary-from: #16a34a;
+    --gradient-primary-to: #4ade80;
+    --gradient-accent-from: #0284c7;
+    --gradient-accent-to: #06b6d4;
   }
 }
 
@@ -229,6 +240,52 @@
   :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
     overflow-wrap: anywhere;
     word-break: break-word;
+  }
+
+  /* Mobile-friendly touch targets and safe-area spacing */
+  html, body {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  /* Increase hit area for small buttons on mobile */
+  .h-8.w-8, .h-9.w-9, button, a[role="button"], input, textarea, select {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  /* Mobile-first responsive typography */
+  @media (max-width: 640px) {
+    body {
+      font-size: 0.9375rem;
+      line-height: 1.5;
+    }
+    h1 { font-size: 1.5rem; line-height: 1.2; }
+    h2 { font-size: 1.25rem; line-height: 1.3; }
+    h3 { font-size: 1.125rem; }
+    .text-lg { font-size: 1rem; }
+    .text-sm { font-size: 0.875rem; }
+  }
+
+  /* Better mobile button and input sizing */
+  @media (max-width: 640px) {
+    :where(button, input, textarea, select) {
+      min-height: 48px;
+      padding: 0.75rem;
+      font-size: 1rem;
+    }
+    .btn {
+      min-height: 48px;
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  /* Mobile-safe padding and spacing */
+  @media (max-width: 640px) {
+    main > * + * {
+      margin-top: 1rem;
+    }
   }
 
   pre,

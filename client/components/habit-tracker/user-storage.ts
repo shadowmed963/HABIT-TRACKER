@@ -1,5 +1,6 @@
 import type { HabitItem } from "./habit-data";
 import { isSupabaseConfigured, saveUserProfile, getUserProfile, saveUserHabits, getUserHabits } from "@/lib/supabaseClient";
+import supabase from "@/lib/supabaseClient";
 
 export interface HabitUser {
   id: string;
@@ -85,12 +86,22 @@ export async function createUserAccountWithSupabase(name: string, email: string)
   };
 
   // If Supabase is configured, save to database via backend endpoint
-  if (isSupabaseConfigured()) {
+  if (isSupabaseConfigured() && supabase) {
     try {
-      // Call backend endpoint to create user profile (uses service role key to bypass RLS)
+      // Get the session token from Supabase auth
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      let headers: Record<string, string> = { "Content-Type": "application/json" };
+
+      // Include JWT token if available for better security
+      if (!sessionError && session?.access_token) {
+        headers["Authorization"] = `Bearer ${session.access_token}`;
+      }
+
+      // Call backend endpoint to create user profile
       const response = await fetch("/api/users/create-profile", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ email, name }),
       });
 

@@ -18,6 +18,8 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  Area,
+  AreaChart,
 } from "recharts";
 
 interface ProgressOverviewProps {
@@ -200,14 +202,14 @@ export default function ProgressOverview({ habits }: ProgressOverviewProps) {
               viewport={{ once: true }}
             >
               <ResponsiveContainer width="100%" height={300}>
-                <RechartsLineChart data={allDaysData}>
+                <AreaChart data={allDaysData}>
                   <defs>
                     <linearGradient id="colorPercentage" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
+                      <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.4} />
+                      <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.05} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                   <XAxis
                     dataKey="label"
                     stroke="hsl(var(--muted-foreground))"
@@ -219,29 +221,31 @@ export default function ProgressOverview({ habits }: ProgressOverviewProps) {
                     style={{ fontSize: "12px" }}
                     tick={{ fill: "hsl(var(--muted-foreground))" }}
                     domain={[0, 100]}
-                    label={{ value: "%", angle: -90, position: "insideLeft" }}
+                    label={{ value: "%", angle: -90, position: "insideLeft", offset: 10 }}
                   />
                   <Tooltip
                     contentStyle={{
                       backgroundColor: "hsl(var(--card))",
-                      border: "1px solid hsl(var(--border))",
+                      border: "2px solid hsl(var(--primary))",
                       borderRadius: "12px",
                       color: "hsl(var(--foreground))",
+                      boxShadow: "0 4px 12px rgba(34, 197, 94, 0.15)",
                     }}
                     formatter={(value: number) => `${value}%`}
                     labelFormatter={(label) => `Day ${label}`}
                   />
-                  <Line
+                  <Area
                     type="monotone"
                     dataKey="percentage"
                     stroke="hsl(var(--primary))"
                     strokeWidth={3}
-                    dot={{ fill: "hsl(var(--primary))", r: 4 }}
-                    activeDot={{ r: 6 }}
+                    fill="url(#colorPercentage)"
                     isAnimationActive={true}
-                    animationDuration={800}
+                    animationDuration={1200}
+                    dot={{ fill: "hsl(var(--primary))", r: 4, strokeWidth: 2 }}
+                    activeDot={{ r: 7, strokeWidth: 0 }}
                   />
-                </RechartsLineChart>
+                </AreaChart>
               </ResponsiveContainer>
             </motion.div>
           ) : (

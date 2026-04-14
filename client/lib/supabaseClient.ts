@@ -100,6 +100,7 @@ export interface UserProfile {
   id: string;
   email: string;
   name: string;
+  auth_uid: string;
   created_at: string;
   updated_at: string;
 }
@@ -107,24 +108,39 @@ export interface UserProfile {
 export interface UserHabitsData {
   id: string;
   user_id: string;
+  auth_uid: string;
   habits: any[];
   onboarding_complete: boolean;
   updated_at: string;
 }
 
 /**
- * Create or update user profile in Supabase
+ * Create or update user profile in Supabase (authenticated)
  */
 export async function saveUserProfile(email: string, name: string): Promise<{ data: UserProfile | null; error: any }> {
   if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    // Get authenticated user to verify ownership and get auth_uid
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !authUser) {
+      return { data: null, error: "User not authenticated" };
+    }
+
+    // Verify email matches authenticated user
+    if (authUser.email?.toLowerCase() !== email.toLowerCase()) {
+      console.warn(`Security: User ${authUser.email} attempted to save profile for ${email}`);
+      return { data: null, error: "Unauthorized: Email does not match authenticated user" };
+    }
+
     const { data, error } = await supabase
       .from("user_profiles")
       .upsert(
         {
           email: email.toLowerCase(),
           name,
+          auth_uid: authUser.id,
           updated_at: new Date().toISOString(),
         },
         { 
@@ -148,16 +164,30 @@ export async function saveUserProfile(email: string, name: string): Promise<{ da
 }
 
 /**
- * Get user profile from Supabase
+ * Get user profile from Supabase (authenticated - only fetch own profile)
  */
 export async function getUserProfile(email: string): Promise<{ data: UserProfile | null; error: any }> {
   if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    // Get currently authenticated user to verify ownership
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !authUser) {
+      return { data: null, error: "User not authenticated" };
+    }
+
+    // Verify the requesting email matches the authenticated user's email
+    if (authUser.email?.toLowerCase() !== email.toLowerCase()) {
+      console.warn(`Security: User ${authUser.email} attempted to access ${email} profile`);
+      return { data: null, error: "Unauthorized: Cannot access other user's profile" };
+    }
+
     const { data, error } = await supabase
       .from("user_profiles")
       .select("*")
       .eq("email", email.toLowerCase())
+      .eq("auth_uid", authUser.id)
       .single();
 
     return { data, error };
@@ -167,12 +197,25 @@ export async function getUserProfile(email: string): Promise<{ data: UserProfile
 }
 
 /**
- * Save user habits to Supabase
+ * Save user habits to Supabase (authenticated)
  */
 export async function saveUserHabits(email: string, habits: any[], onboardingComplete: boolean): Promise<{ data: UserHabitsData | null; error: any }> {
   if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    // Get authenticated user to verify ownership and get auth_uid
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !authUser) {
+      return { data: null, error: "User not authenticated" };
+    }
+
+    // Verify email matches authenticated user
+    if (authUser.email?.toLowerCase() !== email.toLowerCase()) {
+      console.warn(`Security: User ${authUser.email} attempted to save habits for ${email}`);
+      return { data: null, error: "Unauthorized: Email does not match authenticated user" };
+    }
+
     // First get the user profile to get the ID
     const { data: profile, error: profileError } = await getUserProfile(email);
     if (profileError || !profile) {
@@ -185,6 +228,7 @@ export async function saveUserHabits(email: string, habits: any[], onboardingCom
       .upsert(
         {
           user_id: profile.id,
+          auth_uid: authUser.id,
           habits,
           onboarding_complete: onboardingComplete,
           updated_at: new Date().toISOString(),
@@ -210,12 +254,25 @@ export async function saveUserHabits(email: string, habits: any[], onboardingCom
 }
 
 /**
- * Get user habits from Supabase
+ * Get user habits from Supabase (authenticated - only fetch own habits)
  */
 export async function getUserHabits(email: string): Promise<{ data: UserHabitsData | null; error: any }> {
   if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    // Get currently authenticated user to verify ownership
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+    
+    if (authError || !authUser) {
+      return { data: null, error: "User not authenticated" };
+    }
+
+    // Verify the requesting email matches the authenticated user's email
+    if (authUser.email?.toLowerCase() !== email.toLowerCase()) {
+      console.warn(`Security: User ${authUser.email} attempted to access ${email} habits`);
+      return { data: null, error: "Unauthorized: Cannot access other user's habits" };
+    }
+
     // First get the user profile to get the ID
     const { data: profile, error: profileError } = await getUserProfile(email);
     if (profileError || !profile) {
@@ -226,6 +283,7 @@ export async function getUserHabits(email: string): Promise<{ data: UserHabitsDa
       .from("user_habits")
       .select("*")
       .eq("user_id", profile.id)
+      .eq("auth_uid", authUser.id)
       .single();
 
     return { data, error };

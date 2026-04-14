@@ -289,6 +289,10 @@ export interface Translations {
     gridLabel: string;
     remove: string;
     markToday: string;
+    notificationTime: string;
+    notificationEnabled: string;
+    setReminder: string;
+    notificationPlaceholder: string;
   };
   statistics: {
     successRate: string;
@@ -338,6 +342,9 @@ const translations: Record<Language, Translations> = {
       dayTracked: "Days tracked",
       challengeStatus: "Challenge status",
       resetChallenge: "Reset challenge",
+      quickLinks: "Quick Links",
+      openGrid: "Open Grid",
+      openChart: "Open Chart",
     },
     quiz: {
       title: "Let's build your personalized system",
@@ -402,7 +409,10 @@ const translations: Record<Language, Translations> = {
         mental: "Puzzles • Reading • Memory exercises • Journaling • Problem-solving drills",
         physical: "Walks/runs • HIIT • Flexibility work • Posture breaks • Short workouts",
         religious: "Prayer • Quran reading • Remembrance • Acts of charity • Spiritual reflection",
-        study: "Spaced repetition • Note summaries • Practice questions • Focused study blocks",
+          resetChallenge: "إعادة التحدي",
+          quickLinks: "روابط سريعة",
+          openGrid: "افتح الشبكة",
+          openChart: "افتح المخطط",
         mixed: "Combine light exercise + study time + mindfulness",
         mindfulness: "Breath awareness • Body scan • Meditative walk • Present moment journaling",
         work: "Pomodoro timers • Task batching • Email sorting • Morning planning",
@@ -419,7 +429,10 @@ const translations: Record<Language, Translations> = {
     options: {
       productivity: "Productivity",
       health: "Health",
-      religion: "Religion",
+          resetChallenge: "Réinitialiser le défi",
+          quickLinks: "Liens rapides",
+          openGrid: "Ouvrir la grille",
+          openChart: "Ouvrir le graphique",
       study: "Study",
       discipline: "Discipline",
       learning: "Learning",
@@ -616,6 +629,10 @@ const translations: Record<Language, Translations> = {
       gridLabel: "30-day habit grid",
       remove: "Remove",
       markToday: "Mark today",
+      notificationTime: "Notification time",
+      notificationEnabled: "Enable notification",
+      setReminder: "Set reminder",
+      notificationPlaceholder: "HH:mm (e.g., 08:30)",
     },
     statistics: {
       successRate: "Success rate",
@@ -940,6 +957,10 @@ const translations: Record<Language, Translations> = {
       gridLabel: "شبكة العادات لمدة 30 يوماً",
       remove: "إزالة",
       markToday: "تحديد اليوم",
+      notificationTime: "وقت الإشعار",
+      notificationEnabled: "تفعيل الإشعار",
+      setReminder: "تعيين التذكير",
+      notificationPlaceholder: "HH:mm (مثال: 08:30)",
     },
     statistics: {
       successRate: "معدل النجاح",
@@ -1264,6 +1285,10 @@ const translations: Record<Language, Translations> = {
       gridLabel: "Grille des habitudes de 30 jours",
       remove: "Supprimer",
       markToday: "Marquer aujourd'hui",
+      notificationTime: "Heure de notification",
+      notificationEnabled: "Activer la notification",
+      setReminder: "Définir un rappel",
+      notificationPlaceholder: "HH:mm (ex: 08:30)",
     },
     statistics: {
       successRate: "Taux de réussite",
