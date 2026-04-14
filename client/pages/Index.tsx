@@ -528,45 +528,6 @@ export default function Index() {
 
           <ProgressOverview habits={habits} />
 
-          {habits.length > 0 && (
-            <section
-              className="rounded-[30px] border border-border bg-card/88 p-5 shadow-[0_24px_70px_rgba(77,73,122,0.12)] sm:p-6"
-            >
-              <h2 className="text-xl font-semibold text-foreground">Quick Actions</h2>
-              <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const name = prompt("Enter habit name:");
-                    if (name && name.trim()) {
-                      addQuickHabit();
-                      setQuickHabit(name);
-                      addQuickHabit();
-                      setQuickHabit("");
-                    }
-                  }}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:bg-primary/5"
-                >
-                  Add Habit
-                </button>
-                <button
-                  type="button"
-                  onClick={markAllTodayComplete}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 text-sm font-semibold text-foreground transition hover:border-primary/40 hover:bg-primary/5"
-                >
-                  ✓ Mark all complete
-                </button>
-                <button
-                  type="button"
-                  onClick={resetMonth}
-                  className="inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-destructive/20 bg-destructive/5 px-4 text-sm font-semibold text-destructive transition hover:bg-destructive/10"
-                >
-                  Reset month
-                </button>
-              </div>
-            </section>
-          )}
-
           <StatisticsPanel habits={habits} />
 
           {habits.length ? (

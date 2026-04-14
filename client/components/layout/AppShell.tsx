@@ -1,4 +1,4 @@
-import { Heart, Sparkles, Globe } from "lucide-react";
+import { Heart, Sparkles, Globe, Instagram } from "lucide-react";
 import type { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -41,6 +41,16 @@ export default function AppShell({ children }: PropsWithChildren) {
               </div>
 
               <ThemeToggle />
+
+              <button
+                type="button"
+                onClick={() => window.open('https://instagram.com/13thmohamed', '_blank')}
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-sm transition hover:shadow-md hover:scale-105"
+                aria-label="Follow us on Instagram"
+                title="Follow @13thmohamed"
+              >
+                <Instagram className="h-4 w-4" />
+              </button>
 
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
