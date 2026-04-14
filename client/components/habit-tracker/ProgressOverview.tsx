@@ -57,7 +57,7 @@ export default function ProgressOverview({ habits }: ProgressOverviewProps) {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: "easeOut" },
+      transition: { duration: 0.4 },
     },
   };
 
@@ -209,7 +209,7 @@ export default function ProgressOverview({ habits }: ProgressOverviewProps) {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                   <XAxis
-                    dataKey="day"
+                    dataKey="label"
                     stroke="hsl(var(--muted-foreground))"
                     style={{ fontSize: "12px" }}
                     tick={{ fill: "hsl(var(--muted-foreground))" }}
