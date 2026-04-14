@@ -1,0 +1,472 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 252 100% 98%;
+    --foreground: 246 27% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 246 27% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 246 27% 18%;
+
+    --primary: 248 95% 68%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 250 38% 95%;
+    --secondary-foreground: 246 27% 24%;
+
+    --muted: 250 30% 94%;
+    --muted-foreground: 247 12% 45%;
+
+    --accent: 155 53% 93%;
+    --accent-foreground: 154 38% 28%;
+
+    --destructive: 0 77% 61%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 248 30% 88%;
+    --input: 248 30% 88%;
+    --ring: 248 95% 68%;
+
+    --radius: 1.25rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 246 27% 18%;
+    --sidebar-primary: 248 95% 68%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 250 38% 95%;
+    --sidebar-accent-foreground: 246 27% 24%;
+    --sidebar-border: 248 30% 88%;
+    --sidebar-ring: 248 95% 68%;
+  }
+
+  .dark {
+    --background: 245 31% 10%;
+    --foreground: 240 38% 96%;
+
+    --card: 246 28% 14%;
+    --card-foreground: 240 38% 96%;
+
+    --popover: 246 28% 14%;
+    --popover-foreground: 240 38% 96%;
+
+    --primary: 248 95% 74%;
+    --primary-foreground: 246 35% 12%;
+
+    --secondary: 246 19% 20%;
+    --secondary-foreground: 240 38% 96%;
+
+    --muted: 246 19% 20%;
+    --muted-foreground: 243 14% 72%;
+
+    --accent: 156 24% 22%;
+    --accent-foreground: 154 42% 88%;
+
+    --destructive: 0 72% 56%;
+    --destructive-foreground: 240 38% 96%;
+
+    --border: 246 18% 24%;
+    --input: 246 18% 24%;
+    --ring: 248 95% 74%;
+
+    --sidebar-background: 246 28% 14%;
+    --sidebar-foreground: 240 38% 96%;
+    --sidebar-primary: 248 95% 74%;
+    --sidebar-primary-foreground: 246 35% 12%;
+    --sidebar-accent: 246 19% 20%;
+    --sidebar-accent-foreground: 240 38% 96%;
+    --sidebar-border: 246 18% 24%;
+    --sidebar-ring: 248 95% 74%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  /* smooth theme transitions */
+  .theme-transition {
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  /* soft shadow adjustments for dark mode */
+  .shadow-sm {
+    box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+  }
+  .dark .shadow-sm {
+    box-shadow: 0 8px 24px rgba(2,6,23,0.6);
+  }
+
+  /* card surfaces slightly lighter than background */
+  .bg-card { background-color: hsl(var(--card) / 1); }
+  .dark .bg-card { background-color: hsl(var(--card) / 1); }
+
+  /* popover surfaces */
+  .bg-popover { background-color: hsl(var(--popover) / 1); }
+  .dark .bg-popover { background-color: hsl(var(--popover) / 1); }
+
+  /* ring token */
+  .ring-ring { box-shadow: 0 0 0 4px hsl(var(--ring) / 0.06); }
+
+  /* dialog overlay uses translucent theme-aware overlay (not pure black) */
+  .dialog-overlay { background-color: hsl(var(--background) / 0.6); }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top center, rgba(109, 94, 252, 0.12), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.75), rgba(248, 247, 255, 0.96));
+    min-height: 100vh;
+  }
+
+  html.dark body {
+    background-image:
+      radial-gradient(circle at top center, rgba(109, 94, 252, 0.08), transparent 28%),
+      linear-gradient(180deg, rgba(30, 25, 60, 0.8), rgba(25, 20, 50, 0.9));
+  }
+
+  #root {
+    min-height: 100vh;
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.18);
+    color: hsl(var(--foreground));
+  }
+
+  :where(button, input, textarea, select) {
+    font: inherit;
+  }
+
+  /* Button primitives and variants (reusable) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: calc(var(--radius) / 2);
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: background-color 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 6px hsl(var(--ring) / 0.06);
+  }
+
+  .btn-primary {
+    background-color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+    box-shadow: 0 12px 30px rgba(109,94,252,0.12);
+    border-color: transparent;
+  }
+
+  .dark .btn-primary {
+    box-shadow: 0 8px 24px rgba(2,6,23,0.5);
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.03);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  .btn-ghost:hover {
+    background-color: hsl(var(--secondary) / 0.06);
+    transform: translateY(-1px);
+  }
+
+  /* Small reusable soft shadow */
+  .soft-shadow {
+    box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+  }
+
+  /* Inputs, selects, and textareas — theme-aware and accessible */
+  :where(input, textarea, select) {
+    background-color: hsl(var(--input) / 1);
+    color: hsl(var(--card-foreground) / 1);
+    border: 1px solid hsl(var(--border) / 0.6);
+    padding: 0.5rem 0.75rem;
+    border-radius: calc(var(--radius) / 2);
+    transition: background-color 200ms ease, color 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  }
+
+  :where(input, textarea)::placeholder {
+    color: hsl(var(--muted-foreground) / 0.8);
+  }
+
+  :where(input:focus, textarea:focus, select:focus) {
+    outline: none;
+    box-shadow: 0 0 0 6px hsl(var(--ring) / 0.06);
+    border-color: hsl(var(--primary));
+  }
+
+  /* Buttons get a default smooth transition for hover states */
+  :where(button) {
+    transition: background-color 200ms ease, color 200ms ease, transform 200ms ease, box-shadow 200ms ease;
+  }
+
+  :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  pre,
+  code {
+    overflow-x: auto;
+    white-space: pre;
+  }
+}
+
+/* ============================================
+   MICRO-INTERACTIONS & ANIMATIONS
+   ============================================ */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Habit check interaction - scale + glow pulse */
+@keyframes habitCheckScale {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes habitCheckGlow {
+  0% {
+    box-shadow: 0 0 0 0px rgba(16, 185, 129, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.1);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Streak increment animation */
+@keyframes streakBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes streakGlow {
+  0% {
+    box-shadow: 0 0 0 0px rgba(34, 197, 94, 0);
+  }
+  50% {
+    box-shadow: 0 0 16px 4px rgba(34, 197, 94, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(34, 197, 94, 0);
+  }
+}
+
+/* Button interactions */
+@keyframes buttonHover {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+/* Card stagger appearance */
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress chart line drawing */
+@keyframes chartLineGrow {
+  from {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+  }
+  to {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* AI suggestions fade + scale */
+@keyframes aiSuggestionAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
+  }
+}
+
+/* Empty state floating icon */
+@keyframes floatingIcon {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Success ripple effect */
+@keyframes successRipple {
+  0% {
+    box-shadow: 0 0 0 0px rgba(16, 185, 129, 0.7);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+  }
+}
+
+/* Smooth soft bounce */
+@keyframes softBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Loading pulse */
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ============================================
+   ANIMATION UTILITY CLASSES
+   ============================================ */
+
+.animate-in-fade-up {
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+.animate-in-fade {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-habit-check {
+  animation: habitCheckScale 0.3s ease-out forwards;
+}
+
+.animate-habit-glow {
+  animation: habitCheckGlow 0.5s ease-out forwards;
+}
+
+.animate-streak-bounce {
+  animation: streakBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.animate-streak-glow {
+  animation: streakGlow 0.6s ease-out forwards;
+}
+
+.animate-button-hover {
+  animation: buttonHover 0.2s ease-out forwards;
+}
+
+.animate-card-up {
+  animation: cardSlideUp 0.4s ease-out forwards;
+}
+
+.animate-floating {
+  animation: floatingIcon 3s ease-in-out infinite;
+}
+
+.animate-ripple {
+  animation: successRipple 0.6s ease-out forwards;
+}
+
+.animate-soft-bounce {
+  animation: softBounce 0.3s ease-out forwards;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Stagger delays for card lists */
+.animate-delay-0 { animation-delay: 0ms; }
+.animate-delay-50 { animation-delay: 50ms; }
+.animate-delay-100 { animation-delay: 100ms; }
+.animate-delay-150 { animation-delay: 150ms; }
+.animate-delay-200 { animation-delay: 200ms; }
+.animate-delay-250 { animation-delay: 250ms; }
+.animate-delay-300 { animation-delay: 300ms; }
+.animate-delay-350 { animation-delay: 350ms; }
+.animate-delay-400 { animation-delay: 400ms; }
+.animate-delay-450 { animation-delay: 450ms; }
+.animate-delay-500 { animation-delay: 500ms; }
+.animate-delay-550 { animation-delay: 550ms; }
