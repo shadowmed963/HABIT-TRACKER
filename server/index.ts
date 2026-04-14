@@ -28,6 +28,11 @@ export function createServer() {
   // User creation endpoint (uses service role key to bypass RLS)
   app.post("/api/users/create-profile", handleCreateUser);
 
+  // Redirect deprecated/legacy routes to homepage
+  app.get(["/grid", "/chart"], (_req, res) => {
+    res.redirect(301, "/");
+  });
+
   // Serve static files from dist/spa (production build)
   const spaDir = path.join(__dirname, "..", "dist", "spa");
   app.use(express.static(spaDir, { maxAge: "1h" }));

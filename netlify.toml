@@ -14,6 +14,16 @@ status = 200
 to = "/.netlify/functions/api/:splat"
 
 [[redirects]]
+	from = "/grid"
+	to = "/"
+	status = 301
+
+[[redirects]]
+	from = "/chart"
+	to = "/"
+	status = 301
+
+[[redirects]]
 	from = "/*"
 	to = "/index.html"
 	status = 200
