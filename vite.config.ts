@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist/spa",
   },
-  plugins: [react(), expressPlugin()],
+  plugins: [react(), expressPlugin(), spaFallbackPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),
@@ -28,12 +28,45 @@ export default defineConfig(({ mode }) => ({
 function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
-    apply: "serve", // Only apply during development (serve mode)
+    apply: "serve",
     configureServer(server) {
       const app = createServer();
-
-      // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
+    },
+  };
+}
+
+function spaFallbackPlugin(): Plugin {
+  return {
+    name: "spa-fallback",
+    apply: "serve",
+    configureServer(server) {
+      return () => {
+        server.middlewares.use((req, res, next) => {
+          // Skip if response already sent
+          if (res.headersSent) return;
+          
+          // Skip API routes
+          if (req.url.startsWith("/api/")) return next();
+          
+          // Skip if URL has a file extension (static assets)
+          if (/\.\w+$/.test(req.url)) return next();
+          
+          // Skip non-GET requests
+          if (req.method !== "GET") return next();
+          
+          // For all other GET requests without extensions, serve index.html
+          const indexPath = path.resolve(__dirname, "index.html");
+          const fs = require("fs");
+          try {
+            const content = fs.readFileSync(indexPath, "utf-8");
+            res.setHeader("Content-Type", "text/html");
+            res.end(content);
+          } catch (e) {
+            next();
+          }
+        });
+      };
     },
   };
 }

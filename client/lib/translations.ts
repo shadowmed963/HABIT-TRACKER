@@ -1,6 +1,24 @@
-export type Language = "en" | "ar" | "fr";
+﻿export type Language = "en" | "ar" | "fr";
 
 export interface Translations {
+  landing: {
+    badge: string;
+    headline: string;
+    subheadline: string;
+    feature1Title: string;
+    feature1Desc: string;
+    feature2Title: string;
+    feature2Desc: string;
+    feature3Title: string;
+    feature3Desc: string;
+    ctaButton: string;
+    learnMore: string;
+    trustedBy: string;
+    users: string;
+    rating: string;
+    challenge: string;
+    scrollDown: string;
+  };
   header: {
     habitTracker: string;
     niyyahDaily: string;
@@ -42,6 +60,8 @@ export interface Translations {
     preferenceDesc: string;
     goal: string;
     goalDesc: string;
+    levelTitle: string;
+    levelDesc: string;
     customImproveLabel: string;
     customImprovePlaceholder: string;
     goalLabel: string;
@@ -92,6 +112,16 @@ export interface Translations {
     personalizedHabits: string;
     basedOn: string;
     daily: string;
+    aiAssistant: string;
+    smartHabits: string;
+    howItWorks: string;
+    question: string;
+    of: string;
+    essential: string;
+    addOwnHabit: string;
+    typeHabit: string;
+    add: string;
+    seeSuggestions: string;
   };
   options: {
     productivity: string;
@@ -112,12 +142,21 @@ export interface Translations {
     financial: string;
     social: string;
     creative: string;
+    beginner: string;
+    intermediate: string;
+    advanced: string;
     fiveMin: string;
     tenMin: string;
     twentyMin: string;
     thirtyMin: string;
+    thirtyPlusMin: string;
     fortyFiveMin: string;
     sixtyMin: string;
+    fitness: string;
+    creativity: string;
+    selfCare: string;
+    skills: string;
+    stress: string;
   };
   habits: {
     prayer: string;
@@ -274,6 +313,9 @@ export interface Translations {
     infoSignupMessage: string;
     loginButton: string;
     createAccountButton: string;
+    pleaseWait: string;
+    showPassword: string;
+    hidePassword: string;
     emailRequired: string;
     nameRequired: string;
     authFailed: string;
@@ -307,6 +349,9 @@ export interface Translations {
     best: string;
     focusArea: string;
     completions: string;
+    progressTable: string;
+    completion: string;
+    streak: string;
   };
   common: {
     savedCheckIns: string;
@@ -315,12 +360,68 @@ export interface Translations {
     arabic: string;
     french: string;
     selectLanguage: string;
+    tryLogicPuzzlesToday: string;
+    weakHabitZeroPercent: string;
+    weakHabitLow: string;
+    weakHabitMid: string;
+    weakHabitHigh: string;
+    weakHabitStrong: string;
     daily: string;
     anytime: string;
     custom: string;
     menuFor: string;
     addedByYou: string;
     addHabitsToSeeChart: string;
+    startFirstDayHint: string;
+    greatWorkToday: string;
+    restartSmallWin: string;
+    noHabitsCompletedToday: string;
+    welcomeBackSingular: string;
+    welcomeBackPlural: string;
+    noBestDayYet: string;
+    loadingDashboard: string;
+    greetingHello: string;
+    dailyProgress: string;
+    habitMomentum: string;
+    habitMomentumDesc: string;
+    completedHabits: string;
+    totalHabits: string;
+    currentStreakLabel: string;
+    bestStreakLabel: string;
+    weeklyAverageLabel: string;
+    todayPoints: string;
+    days: string;
+    pointsEarned: string;
+    weeklyTrend: string;
+    completionCadence: string;
+    habitAnalytics: string;
+    mobileFriendly: string;
+    habitList: string;
+    quickActions: string;
+    fastToggles: string;
+    complete: string;
+    undo: string;
+    habit: string;
+    category: string;
+    status: string;
+    done: string;
+    pending: string;
+    createNewHabit: string;
+    habitName: string;
+    categoryLabel: string;
+    habitNamePlaceholder: string;
+    cancel: string;
+    createHabit: string;
+    aiDailyInsight: string;
+    dayStreak: string;
+    today: string;
+    streakAtRisk: string;
+    healthCategory: string;
+    learningCategory: string;
+    productivityCategory: string;
+    mindfulnessCategory: string;
+    socialCategory: string;
+    financeCategory: string;
   };
   features: {
     howItWorks: string;
@@ -330,8 +431,26 @@ export interface Translations {
   footer: string;
 }
 
-const translations: Record<Language, Translations> = {
+const translations: Partial<Record<Language, Translations>> = {
   en: {
+    landing: {
+      badge: "🌙 Gentle Daily Momentum",
+      headline: "Build habits that feel calm and lasting",
+      subheadline: "A spiritual AI system that helps you track Prayer, Quran, and 30-day habits with a focus on consistency over perfection.",
+      feature1Title: "AI-Powered Suggestions",
+      feature1Desc: "Get personalized habit recommendations based on your goals and available time.",
+      feature2Title: "30-Day Progress Tracking",
+      feature2Desc: "Simple daily grid to mark completions and build visible momentum.",
+      feature3Title: "Spiritual Foundation",
+      feature3Desc: "Prayer and Quran are always at the center of your habit system.",
+      ctaButton: "Get Started",
+      learnMore: "Learn More",
+      trustedBy: "Trusted by",
+      users: "habit builders",
+      rating: "⭐ 4.9/5",
+      challenge: "30-Day Habit Challenge",
+      scrollDown: "Scroll to explore",
+    },
     header: {
       habitTracker: "Habit Tracker",
       niyyahDaily: "Daily Intention",
@@ -375,12 +494,24 @@ const translations: Record<Language, Translations> = {
       preferenceDesc: "Choose what resonates with your style.",
       goal: "What's your primary goal?",
       goalDesc: "This helps us match habits to your life.",
+      levelTitle: "Your level",
+      levelDesc: "Choose your starting intensity.",
       customImproveLabel: "What do you want to improve in your life?",
       customImprovePlaceholder: "Example: Patience, sleep quality, family connection",
       goalLabel: "Goal",
       timeLabel: "Time available",
       typeLabel: "Preferred type",
       smartTip: "💡 Smart tip:",
+      aiAssistant: "AI Assistant",
+      smartHabits: "Smart habit builder",
+      howItWorks: "How it works: The AI builds a balanced 30-day system using your answers.",
+      question: "Question",
+      of: "of",
+      essential: "Essential",
+      addOwnHabit: "Add your own habit",
+      typeHabit: "Type a habit name",
+      add: "Add",
+      seeSuggestions: "See suggestions",
       prayerQuranAlways: "Prayer and Quran form your foundation. Build everything around them.",
       disciplineTip: "One strong habit beats five weak ones. Master one, then add others.",
       healthTip: "Water and movement are life's essentials. Start with these.",
@@ -429,6 +560,7 @@ const translations: Record<Language, Translations> = {
     options: {
       productivity: "Productivity",
       health: "Health",
+      religion: "Religion",
       study: "Study",
       discipline: "Discipline",
       learning: "Learning",
@@ -444,12 +576,21 @@ const translations: Record<Language, Translations> = {
       financial: "Financial",
       social: "Social",
       creative: "Creative",
+      beginner: "Beginner",
+      intermediate: "Intermediate",
+      advanced: "Advanced",
       fiveMin: "5 minutes",
       tenMin: "10 minutes",
       twentyMin: "20 minutes",
       thirtyMin: "30 minutes",
+      thirtyPlusMin: "30+ minutes",
       fortyFiveMin: "45 minutes",
       sixtyMin: "1 hour",
+      fitness: "Fitness",
+      creativity: "Creativity",
+      selfCare: "Self-care",
+      skills: "Skills",
+      stress: "Reduce stress",
     },
     habits: {
       prayer: "Prayer",
@@ -615,6 +756,9 @@ const translations: Record<Language, Translations> = {
       infoSignupMessage: "Create an account with your email to get started.",
       loginButton: "Log in",
       createAccountButton: "Create account",
+      pleaseWait: "Please wait...",
+      showPassword: "Show password",
+      hidePassword: "Hide password",
       emailRequired: "Email is required",
       nameRequired: "Name is required for signup",
       authFailed: "Authentication failed",
@@ -640,6 +784,9 @@ const translations: Record<Language, Translations> = {
       best: "Best",
       focusArea: "Focus area",
       completions: "completions",
+      progressTable: "Progress table",
+      completion: "Completion",
+      streak: "Streak",
     },
     common: {
       savedCheckIns: "saved check-ins",
@@ -654,6 +801,63 @@ const translations: Record<Language, Translations> = {
       menuFor: "Menu for",
       addedByYou: "Added by you to personalize your journey.",
       addHabitsToSeeChart: "Add habits to see your progress chart",
+      tryLogicPuzzlesToday: "Try \"Logic Puzzles\" today — even just 5 minutes counts!",
+      weakHabitZeroPercent: "Try \"{habitName}\" today — even just 5 minutes counts!",
+      weakHabitLow: "\"{habitName}\" needs focus: aim for 3 days this week to rebuild.",
+      weakHabitMid: "\"{habitName}\" at {percentage}% — add it to your daily routine.",
+      weakHabitHigh: "\"{habitName}\" is close to strong — one more completion this week!",
+      weakHabitStrong: "\"{habitName}\" is solid. Let's make it a 90%+ habit!",
+      startFirstDayHint: "Add a habit and start your first day.",
+      greatWorkToday: "Great work today! Keep the streak alive.",
+      restartSmallWin: "Restart with one small win today — your streak waits for you.",
+      noHabitsCompletedToday: "No habits completed today yet. Start with a tiny daily win.",
+      welcomeBackSingular: "Welcome back! You returned after 1 day. Keep momentum.",
+      welcomeBackPlural: "Welcome back! You returned after {days} days. Keep momentum.",
+      noBestDayYet: "No best day yet.",
+      noProgressYet: "No progress yet.",
+      loadingDashboard: "Loading your analytics dashboard...",
+      greetingHello: "Hello",
+      dailyProgress: "Daily progress",
+      habitMomentum: "Your habit momentum",
+      habitMomentumDesc: "A clean overview of today’s completion and the habits driving your streak.",
+      completedHabits: "Completed habits",
+      totalHabits: "Total habits",
+      currentStreakLabel: "Current streak",
+      bestStreakLabel: "Best streak",
+      weeklyAverageLabel: "Weekly average",
+      todayPoints: "Today's points",
+      days: "days",
+      pointsEarned: "points earned",
+      weeklyTrend: "Weekly trend",
+      completionCadence: "Completion cadence",
+      habitAnalytics: "Habit analytics",
+      mobileFriendly: "Mobile friendly",
+      habitList: "Habit list",
+      quickActions: "Quick actions",
+      fastToggles: "Fast toggles",
+      complete: "Complete",
+      undo: "Undo",
+      habit: "Habit",
+      category: "Category",
+      status: "Status",
+      done: "Done",
+      pending: "Pending",
+      createNewHabit: "Create new habit",
+      habitName: "Habit name",
+      categoryLabel: "Category",
+      habitNamePlaceholder: "e.g., Morning meditation",
+      cancel: "Cancel",
+      createHabit: "Create habit",
+      aiDailyInsight: "AI Daily Insight",
+      dayStreak: "day streak",
+      today: "today",
+      streakAtRisk: "Your streak is on the line! Complete one habit now to save it.",
+      healthCategory: "Health",
+      learningCategory: "Learning",
+      productivityCategory: "Productivity",
+      mindfulnessCategory: "Mindfulness",
+      socialCategory: "Social",
+      financeCategory: "Finance",
     },
     features: {
       howItWorks: "How it works: The AI generates 3-8 personalized habits based on your goal, available time, and preferred type. Religious habits are always included as the foundation.",
@@ -670,8 +874,7 @@ const translations: Record<Language, Translations> = {
     },
     hero: {
       headline: "بناء نظام عادات هادئ لمدة 30 يوماً يتناسب مع حياتك الحقيقية.",
-      subheading:
-        "تتبع عدة عادات، راقب تقدمك، واستخدم مساعداً ذكياً ليحول أهدافك إلى خطة واقعية تضمن الصلاة وقراءة القرآن دائماً.",
+      subheading: "تتبع عدة عادات، راقب تقدمك، واستخدم مساعداً ذكياً ليحول أهدافك إلى خطة واقعية تضمن الصلاة وقراءة القرآن دائماً.",
       activeHabits: "عادات نشطة",
       dayTracked: "أيام مُتتبعة",
       challengeStatus: "حالة التحدي",
@@ -705,6 +908,8 @@ const translations: Record<Language, Translations> = {
       preferenceDesc: "اختر النمط الذي يناسب شخصيتك.",
       goal: "ما هدفك الرئيسي من هذه العادات؟",
       goalDesc: "يساعد في تحديد العادات الأنسب لك.",
+      levelTitle: "ما مستوى البداية؟",
+      levelDesc: "اختر شدة البدء المناسبة لك.",
       customImproveLabel: "أخبرنا: ماذا تريد أن تحسّن في حياتك؟",
       customImprovePlaceholder: "مثال: الصبر، جودة النوم، الوقت مع الأسرة",
       goalLabel: "الهدف",
@@ -755,6 +960,16 @@ const translations: Record<Language, Translations> = {
       personalizedHabits: "عادات مخصصة",
       basedOn: "بناءً على:",
       daily: "يومياً",
+      aiAssistant: "مساعد الذكاء الاصطناعي",
+      smartHabits: "عادات ذكية",
+      howItWorks: "كيف يعمل: يولد الذكاء الاصطناعي خطة عادلة مع الصلاة والقرآن لبناء عادة متينة.",
+      question: "سؤال",
+      of: "من",
+      essential: "ضروري",
+      addOwnHabit: "أضف عادة خاصة بك",
+      typeHabit: "اكتب اسم العادة",
+      add: "أضف",
+      seeSuggestions: "عرض الاقتراحات"
     },
     options: {
       productivity: "الإنتاجية",
@@ -781,6 +996,15 @@ const translations: Record<Language, Translations> = {
       thirtyMin: "30 دقيقة",
       fortyFiveMin: "45 دقيقة",
       sixtyMin: "ساعة واحدة",
+      beginner: "مبتدئ",
+      intermediate: "متوسط",
+      advanced: "متقدم",
+      thirtyPlusMin: "أكثر من 30 دقيقة",
+      fitness: "لياقة",
+      creativity: "إبداع",
+      selfCare: "العناية بالنفس",
+      skills: "المهارات",
+      stress: "تقليل التوتر",
     },
     habits: {
       prayer: "الصلاة",
@@ -904,7 +1128,7 @@ const translations: Record<Language, Translations> = {
       currentStreak: "السلسلة الحالية",
       streakDesc: "أقوى سلسلة نشطة لديك عبر جميع العادات.",
       progressChart: "مخطط التقدم",
-      progressDesc:  "عرض بسيط لمدى إكمال عاداتك كل يوم.",
+      progressDesc: "عرض بسيط لمدى إكمال عاداتك كل يوم.",
       lastSevenDays: "آخر 7 أيام",
       habitsActive: "عادات نشطة",
     },
@@ -925,8 +1149,7 @@ const translations: Record<Language, Translations> = {
     auth: {
       personalSpace: "مساحة العادات الشخصية",
       mainTitle: "سجل الدخول أو أنشئ حساباً لتحميل متتبع عاداتك.",
-      mainDesc:
-        "كل حساب يحتفظ بعاداته الخاصة، وشبكته الـ 30 يوم، ومخطط تقدمه، واقتراحات الذكاء الاصطناعي. يمكنك تسجيل الخروج في أي وقت للتبديل إلى مستخدم آخر.",
+      mainDesc: "كل حساب يحتفظ بعاداته الخاصة، وشبكته الـ 30 يوم، ومخطط تقدمه، واقتراحات الذكاء الاصطناعي. يمكنك تسجيل الخروج في أي وقت للتبديل إلى مستخدم آخر.",
       userSpecificHabits: "عادات خاصة بالمستخدم",
       userSpecificDesc: "يتم تسجيل كل إضافة أو حذف أو إكمال لهذا الحساب فقط.",
       privateChart: "مخطط التقدم الخاص",
@@ -951,6 +1174,9 @@ const translations: Record<Language, Translations> = {
       authFailed: "فشل المصادقة",
       existingUsersMessage: "يمكن للمستخدمين الحاليين تسجيل الدخول مجدداً ببريدهم الإلكتروني وكودهم المحفوظ.",
       newAccountMessage: "لا توجد حسابات حتى الآن. أنشئ الحساب الأول للبدء.",
+      pleaseWait: "الرجاء الانتظار...",
+      showPassword: "إظهار كلمة المرور",
+      hidePassword: "إخفاء كلمة المرور",
     },
     grid: {
       gridLabel: "شبكة العادات لمدة 30 يوماً",
@@ -971,27 +1197,105 @@ const translations: Record<Language, Translations> = {
       best: "الأفضل",
       focusArea: "مجال التركيز",
       completions: "إكمال",
+      progressTable: "جدول التقدم",
+      completion: "الإكمال",
+      streak: "السلسلة",
     },
-    common: {
-      savedCheckIns: "عمليات تسجيل محفوظة",
-      todaysGoal: "هدف اليوم",
-      english: "الإنجليزية",
-      arabic: "العربية",
-      french: "الفرنسية",
-      selectLanguage: "اختر اللغة",
-      daily: "يومياً",
-      anytime: "في أي وقت",
-      custom: "مخصص",
-      menuFor: "قائمة ل",
-      addedByYou: "أضافتها لتخصيص رحلتك",
-      addHabitsToSeeChart: "أضف عادات لرؤية مخطط التقدم الخاص بك",
-    },
+      common: {
+        savedCheckIns: "عمليات التتبع المحفوظة",
+        todaysGoal: "هدف اليوم",
+        english: "English",
+        arabic: "العربية",
+        french: "Français",
+        selectLanguage: "اختر اللغة",
+        daily: "يومي",
+        anytime: "في أي وقت",
+        custom: "مخصص",
+        menuFor: "قائمة لـ",
+        addedByYou: "تمت إضافتها من طرفك لتخصيص رحلتك.",
+        addHabitsToSeeChart: "أضف عادات لرؤية مخطط تقدمك",
+        tryLogicPuzzlesToday: "جرِّب «ألغاز منطقية» اليوم — حتى 5 دقائق فقط تُحتسب!",
+        weakHabitZeroPercent: "جرِّب \"{habitName}\" اليوم — حتى 5 دقائق فقط تُحتسب!",
+        weakHabitLow: "يحتاج \"{habitName}\" إلى تركيز: استهدف 3 أيام هذا الأسبوع للإعادة.",
+        weakHabitMid: "\"{habitName}\" بنسبة {percentage}% — أضفه إلى روتينك اليومي.",
+        weakHabitHigh: "\"{habitName}\" قريب جداً من القوة — إكمال واحد فقط هذا الأسبوع!",
+        weakHabitStrong: "\"{habitName}\" قوي. دعنا نجعله عادة بنسبة 90%+!",
+        startFirstDayHint: "أضف عادة وابدأ يومك الأول.",
+        greatWorkToday: "عمل رائع اليوم! حافظ على السلسلة.",
+        restartSmallWin: "ابدأ من جديد بنجاح صغير اليوم — سلسلتك تنتظرك.",
+        noHabitsCompletedToday: "لم يُنجز أي عادة اليوم بعد. ابدأ بفوز يومي صغير.",
+        welcomeBackSingular: "مرحباً بعودتك! عدت بعد يوم واحد. استمر في الزخم.",
+        welcomeBackPlural: "مرحباً بعودتك! عدت بعد {days} أيام. حافظ على الزخم.",
+        noBestDayYet: "لا يوجد أفضل يوم حتى الآن.",
+        noProgressYet: "لا يوجد تقدم حتى الآن.",
+        loadingDashboard: "جاري تحميل لوحة التحليلات الخاصة بك...",
+        greetingHello: "مرحباً",
+        dailyProgress: "التقدم اليومي",
+        habitMomentum: "زخم عاداتك",
+        habitMomentumDesc: "نظرة واضحة على إنجازات اليوم والعادات التي تدعم استمراريتك.",
+        completedHabits: "العادات المكتملة",
+        totalHabits: "إجمالي العادات",
+        currentStreakLabel: "السلسلة الحالية",
+        bestStreakLabel: "أفضل سلسلة",
+        weeklyAverageLabel: "المعدل الأسبوعي",
+        todayPoints: "نقاط اليوم",
+        days: "أيام",
+        pointsEarned: "نقاط مكتسبة",
+        weeklyTrend: "الاتجاه الأسبوعي",
+        completionCadence: "وتيرة الإنجاز",
+        habitAnalytics: "تحليلات العادات",
+        mobileFriendly: "متوافق مع الهاتف",
+        habitList: "قائمة العادات",
+        quickActions: "إجراءات سريعة",
+        fastToggles: "تبديل سريع",
+        complete: "إكمال",
+        undo: "تراجع",
+        habit: "العادة",
+        category: "الفئة",
+        status: "الحالة",
+        done: "مكتمل",
+        pending: "قيد الانتظار",
+        createNewHabit: "إنشاء عادة جديدة",
+        habitName: "اسم العادة",
+        categoryLabel: "الفئة",
+        habitNamePlaceholder: "مثال: التأمل الصباحي",
+        cancel: "إلغاء",
+        createHabit: "إنشاء العادة",
+        aiDailyInsight: "تحليل يومي بالذكاء الاصطناعي",
+        dayStreak: "سلسلة أيام",
+        today: "اليوم",
+        streakAtRisk: "سلسلتك مهددة! أكمل عادة واحدة الآن للحفاظ عليها.",
+        healthCategory: "الصحة",
+        learningCategory: "التعلم",
+        productivityCategory: "الإنتاجية",
+        mindfulnessCategory: "التركيز الذهني",
+        socialCategory: "الاجتماعي",
+        financeCategory: "المالية",
+      },
     features: {
       howItWorks: "كيف يعمل: ينشئ الذكاء الاصطناعي 3-8 عادات مخصصة بناءً على هدفك والوقت المتاح ونوعك المفضل. تُدرج العادات الدينية دائماً كأساس.",
       progressTitle: "التقدم على مدار 30 يوماً",
       realtimeCompletion: "نسبة الإكمال الفورية لجميع الأيام",
     },
     footer: "نظام لطيف لمدة 30 يوماً للصلاة والقرآن والعادات التي تحرك حياتك للأمام.",
+    landing: {
+      badge: "ابدأ رحلة العادات",
+      headline: "نظام عادات يومي مخصص للصلاة والقرآن والتقدم الحقيقي.",
+      subheadline: "ابدأ تحدي 30 يوماً مع خطة بسيطة تساعدك على الالتزام والعادات التي تجعلك أقوى كل يوم.",
+      feature1Title: "خطوات صغيرة، نتائج كبيرة",
+      feature1Desc: "ابدأ بعادات واقعية ومباشرة تناسب وقتك اليومي.",
+      feature2Title: "التزام مستمر",
+      feature2Desc: "تابع تقدمك عبر شبكة أيام مرئية وسلسلة تحفيزية.",
+      feature3Title: "ذكاء مخصص",
+      feature3Desc: "احصل على اقتراحات ذكية تعتمد على هدفك ونمط حياتك.",
+      ctaButton: "ابدأ التحدي",
+      learnMore: "تعرف أكثر",
+      trustedBy: "موثوق من قبل",
+      users: "مستخدمين سعيدين",
+      rating: "تقييم",
+      challenge: "تحدي 30 يوماً",
+      scrollDown: "مرر للأسفل"
+    }
   },
   fr: {
     header: {
@@ -1001,8 +1305,7 @@ const translations: Record<Language, Translations> = {
     },
     hero: {
       headline: "Construire un système d'habitudes paisible de 30 jours qui s'adapte vraiment à votre vie.",
-      subheading:
-        "Suivez plusieurs habitudes, surveillez vos progrès, et utilisez un assistant IA simple pour transformer vos objectifs en un plan qui inclut toujours la prière et la lecture du Coran.",
+      subheading: "Suivez plusieurs habitudes, surveillez vos progrès, et utilisez un assistant IA simple pour transformer vos objectifs en un plan qui inclut toujours la prière et la lecture du Coran.",
       activeHabits: "Habitudes actives",
       dayTracked: "Jours suivis",
       challengeStatus: "Statut du défi",
@@ -1019,8 +1322,7 @@ const translations: Record<Language, Translations> = {
       continue: "Continuer",
       seeHabits: "Voir les habitudes",
       suggested: "Habitudes suggérées pour vous",
-      suggestedDesc:
-        "Supprimez ce qui ne vous convient pas, ajoutez les vôtres, ou commencez le défi de 30 jours maintenant.",
+      suggestedDesc: "Supprimez ce qui ne vous convient pas, ajoutez les vôtres, ou commencez le défi de 30 jours maintenant.",
       removeAnything: "Supprimez ce qui ne vous convient pas, ajoutez les vôtres, ou commencez le défi de 30 jours maintenant.",
       addCustomHabit: "Ajouter une habitude personnalisée",
       addCustomPlaceholder: "Exemples : Journal quotidien 5 minutes, appel aux parents",
@@ -1037,6 +1339,8 @@ const translations: Record<Language, Translations> = {
       preferenceDesc: "Choisissez ce qui résonne avec votre style.",
       goal: "Quel est votre objectif principal ?",
       goalDesc: "Cela nous aide à adapter les habitudes à votre vie.",
+      levelTitle: "Votre niveau",
+      levelDesc: "Choisissez votre intensité de départ.",
       customImproveLabel: "Qu'aimeriez-vous améliorer dans votre vie ?",
       customImprovePlaceholder: "Exemple : Patience, qualité du sommeil, connexion familiale",
       goalLabel: "Objectif",
@@ -1087,6 +1391,16 @@ const translations: Record<Language, Translations> = {
       personalizedHabits: "Habitudes personnalisées",
       basedOn: "Basé sur :",
       daily: "Quotidien",
+      aiAssistant: "Assistant IA",
+      smartHabits: "Habitudes intelligentes",
+      howItWorks: "Comment ça marche : l'IA construit un plan d'habitude réaliste qui garde la prière et le Coran au centre.",
+      question: "Question",
+      of: "de",
+      essential: "Essentiel",
+      addOwnHabit: "Ajouter votre propre habitude",
+      typeHabit: "Tapez un nom d'habitude",
+      add: "Ajouter",
+      seeSuggestions: "Voir les suggestions"
     },
     options: {
       productivity: "Productivité",
@@ -1103,7 +1417,8 @@ const translations: Record<Language, Translations> = {
       religious: "Religieux",
       mixed: "Mixte",
       mindfulness: "Pleine conscience",
-      work: "Travail",      financial: "Financier",
+      work: "Travail",
+      financial: "Financier",
       social: "Social",
       creative: "Créatif",
       fiveMin: "5 minutes",
@@ -1111,7 +1426,17 @@ const translations: Record<Language, Translations> = {
       twentyMin: "20 minutes",
       thirtyMin: "30 minutes",
       fortyFiveMin: "45 minutes",
-      sixtyMin: "1 heure",    },
+      sixtyMin: "1 heure",
+      beginner: "Débutant",
+      intermediate: "Intermédiaire",
+      advanced: "Avancé",
+      thirtyPlusMin: "Plus de 30 minutes",
+      fitness: "Fitness",
+      creativity: "Créativité",
+      selfCare: "Soins personnels",
+      skills: "Compétences",
+      stress: "Réduire le stress",
+    },
     habits: {
       prayer: "La prière",
       quran: "Lire le Coran",
@@ -1221,8 +1546,7 @@ const translations: Record<Language, Translations> = {
       "blessed-morning": "Matin Béni",
       "learning-to-work": "Appliquer Apprentissage",
       gridTitle: "Suivre chaque habitude, jour après jour",
-      gridDesc:
-        "Cliquez sur chaque cellule pour la marquer comme terminée. Faites défiler vers la droite pour voir tous les 30 jours.",
+      gridDesc: "Cliquez sur chaque cellule pour la marquer comme terminée. Faites défiler vers la droite pour voir tous les 30 jours.",
       habits: "Habitudes",
       removeHabit: "Supprimer l'habitude",
       noHabits: "Aucune habitude pour le moment. Ajoutez des habitudes depuis la section ci-dessus.",
@@ -1256,8 +1580,7 @@ const translations: Record<Language, Translations> = {
     auth: {
       personalSpace: "Votre espace personnel d'habitudes",
       mainTitle: "Inscrivez-vous ou connectez-vous pour charger votre propre suivi d'habitudes.",
-      mainDesc:
-        "Chaque compte conserve ses propres habitudes, sa grille de 30 jours, son graphique de progression et ses suggestions IA. Déconnectez-vous à tout moment pour basculer vers un autre utilisateur.",
+      mainDesc: "Chaque compte conserve ses propres habitudes, sa grille de 30 jours, son graphique de progression et ses suggestions IA. Déconnectez-vous à tout moment pour basculer vers un autre utilisateur.",
       userSpecificHabits: "Habitudes spécifiques à l'utilisateur",
       userSpecificDesc: "Chaque ajout, suppression et complétion n'est enregistré que pour ce compte.",
       privateChart: "Graphique de progression privé",
@@ -1282,6 +1605,9 @@ const translations: Record<Language, Translations> = {
       authFailed: "Échec de l'authentification",
       existingUsersMessage: "Les utilisateurs existants peuvent se reconnecter avec leur adresse e-mail et leur code enregistrés.",
       newAccountMessage: "Aucun compte pour le moment. Créez le premier compte pour commencer.",
+      pleaseWait: "Veuillez patienter...",
+      showPassword: "Afficher le mot de passe",
+      hidePassword: "Masquer le mot de passe",
     },
     grid: {
       gridLabel: "Grille des habitudes de 30 jours",
@@ -1302,6 +1628,9 @@ const translations: Record<Language, Translations> = {
       best: "Meilleur",
       focusArea: "Domaine à améliorer",
       completions: "Complétions",
+      progressTable: "Tableau de progression",
+      completion: "Achèvement",
+      streak: "Série",
     },
     common: {
       savedCheckIns: "enregistrements sauvegardés",
@@ -1316,6 +1645,63 @@ const translations: Record<Language, Translations> = {
       menuFor: "Menu pour",
       addedByYou: "Ajouté par vous pour personnaliser votre parcours.",
       addHabitsToSeeChart: "Ajoutez des habitudes pour voir votre graphique de progression",
+      tryLogicPuzzlesToday: "Essayez «Énigmes Logiques» aujourd'hui — même 5 minutes comptent !",
+      weakHabitZeroPercent: "Essayez \"{habitName}\" aujourd'hui — même 5 minutes comptent !",
+      weakHabitLow: "\"{habitName}\" a besoin de focus : visez 3 jours cette semaine pour rebondir.",
+      weakHabitMid: "\"{habitName}\" à {percentage}% — ajoutez-le à votre routine quotidienne.",
+      weakHabitHigh: "\"{habitName}\" est presque solide — une seule autre complétude cette semaine !",
+      weakHabitStrong: "\"{habitName}\" est solide. Rendons-le une habitude à 90%+ !",
+      startFirstDayHint: "Ajoutez une habitude et commencez votre premier jour.",
+      greatWorkToday: "Beau travail aujourd'hui ! Gardez votre élan.",
+      restartSmallWin: "Recommencez avec une petite victoire aujourd'hui — votre série vous attend.",
+      noHabitsCompletedToday: "Aucune habitude complétée aujourd'hui pour le moment. Commencez par une petite victoire quotidienne.",
+      welcomeBackSingular: "Bon retour ! Vous êtes revenu après 1 jour. Gardez le momentum.",
+      welcomeBackPlural: "Bon retour ! Vous êtes revenu après {days} jours. Gardez l'élan.",
+      noBestDayYet: "Aucun meilleur jour pour le moment.",
+      noProgressYet: "Aucun progrès pour le moment.",
+      currentStreakLabel: "Série actuelle",
+      bestStreakLabel: "Meilleure série",
+      weeklyAverageLabel: "Moyenne hebdomadaire",
+      todayPoints: "Points du jour",
+      days: "jours",
+      pointsEarned: "points gagnés",
+      weeklyTrend: "Tendance hebdomadaire",
+      completionCadence: "Cadence d'achèvement",
+      habitAnalytics: "Analyse d'habitude",
+      loadingDashboard: "Chargement de votre tableau de bord d'analyses...",
+      greetingHello: "Bonjour",
+      dailyProgress: "Progrès quotidien",
+      habitMomentum: "Votre élan d'habitude",
+      habitMomentumDesc: "Un aperçu clair des réalisations d'aujourd'hui et des habitudes qui soutiennent votre continuité.",
+      completedHabits: "Habitudes terminées",
+      totalHabits: "Total des habitudes",
+      mobileFriendly: "Convivial pour mobile",
+      habitList: "Liste des habitudes",
+      quickActions: "Actions rapides",
+      fastToggles: "Bascules rapides",
+      complete: "Terminer",
+      undo: "Annuler",
+      habit: "Habitude",
+      category: "Catégorie",
+      status: "Statut",
+      done: "Terminé",
+      pending: "En attente",
+      createNewHabit: "Créer une nouvelle habitude",
+      habitName: "Nom de l'habitude",
+      categoryLabel: "Catégorie",
+      habitNamePlaceholder: "Exemple : Méditation matinale",
+      cancel: "Annuler",
+      createHabit: "Créer l'habitude",
+      aiDailyInsight: "Analyse quotidienne par IA",
+      dayStreak: "Série de jours",
+      today: "Aujourd'hui",
+      streakAtRisk: "Votre série est en danger ! Complétez une habitude maintenant pour la maintenir.",
+      healthCategory: "Santé",
+      learningCategory: "Apprentissage",
+      productivityCategory: "Productivité",
+      mindfulnessCategory: "Pleine conscience",
+      socialCategory: "Social",
+      financeCategory: "Finance",
     },
     features: {
       howItWorks: "Comment cela fonctionne : L'IA génère 3-8 habitudes personnalisées en fonction de votre objectif, du temps disponible et du type préféré. Les habitudes religieuses sont toujours incluses comme fondation.",
@@ -1323,9 +1709,27 @@ const translations: Record<Language, Translations> = {
       realtimeCompletion: "Pourcentage d'achèvement en temps réel pour tous les jours",
     },
     footer: "Un système doux de 30 jours pour la prière, le Coran et les habitudes qui font avancer votre vie.",
+    landing: {
+      badge: "Commencez votre voyage d'habitudes",
+      headline: "Un système d'habitude quotidien sur 30 jours pour la prière, le Coran et la vraie progression.",
+      subheadline: "Lancez un défi concret avec un plan simple qui vous aide à rester cohérent chaque jour.",
+      feature1Title: "Petites actions, grands résultats",
+      feature1Desc: "Créez des habitudes réalistes qui s'intègrent à votre emploi du temps.",
+      feature2Title: "Engagement durable",
+      feature2Desc: "Suivez vos progrès dans une grille claire et une série motivante.",
+      feature3Title: "IA personnalisée",
+      feature3Desc: "Recevez des suggestions intelligentes basées sur votre objectif et votre style de vie.",
+      ctaButton: "Commencez maintenant",
+      learnMore: "En savoir plus",
+      trustedBy: "Approuvé par",
+      users: "utilisateurs satisfaits",
+      rating: "Note",
+      challenge: "Défi 30 jours",
+      scrollDown: "Faites défiler vers le bas"
+    }
   },
 };
 
 export function getTranslations(language: Language): Translations {
-  return translations[language];
+  return translations[language] ?? translations.en!;
 }

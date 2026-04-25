@@ -1,5 +1,5 @@
 import type { HabitItem } from "./habit-data";
-import { isSupabaseConfigured, saveUserProfile, getUserProfile, saveUserHabits, getUserHabits } from "@/lib/supabaseClient";
+import { isSupabaseConfigured, saveUserProfile, getUserProfile, saveUserHabits, getUserHabits, completeOnboarding } from "@/lib/supabaseClient";
 import supabase from "@/lib/supabaseClient";
 
 export interface HabitUser {
@@ -17,236 +17,267 @@ interface AuthResult {
   error?: string;
 }
 
-// Storage key for demo (when not using Supabase)
-const USERS_STORAGE_KEY = "habit_users";
-const ACTIVE_USER_KEY = "habit_active_user";
-
-export function getStoredUsers(): HabitUser[] {
-  try {
-    const stored = localStorage.getItem(USERS_STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch {
-    return [];
-  }
-}
-
-export function getActiveUser(): HabitUser | null {
-  try {
-    const stored = localStorage.getItem(ACTIVE_USER_KEY);
-    return stored ? JSON.parse(stored) : null;
-  } catch {
-    return null;
-  }
-}
-
-function saveActiveUser(user: HabitUser) {
-  localStorage.setItem(ACTIVE_USER_KEY, JSON.stringify(user));
-}
-
-export function clearActiveUser() {
-  localStorage.removeItem(ACTIVE_USER_KEY);
-}
-
-function saveUsers(users: HabitUser[]) {
-  localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users));
-}
-
-// Legacy code generation removed — authentication uses email (and optional password via Supabase).
-
-function findUserIndex(users: HabitUser[], email: string): number {
-  const normalized = email.trim().toLowerCase();
-  return users.findIndex((u) => (u.email || "").trim().toLowerCase() === normalized);
-}
-
 export function signInWithGoogle(): Promise<AuthResult> {
   // Placeholder for Google Sign-In
-  // In a real app, use @react-oauth/google or Firebase Auth
   return Promise.reject({ ok: false, error: "Google sign-in not yet configured" });
 }
 
 /**
- * Create new user account and save to Supabase if configured
+ * Create new user account in Supabase
  */
 export async function createUserAccountWithSupabase(name: string, email: string): Promise<AuthResult> {
-  const users = getStoredUsers();
-
-  // Check if email already exists locally
-  if (findUserIndex(users, email) !== -1) {
-    return { ok: false, error: "User already exists" };
+  if (!isSupabaseConfigured() || !supabase) {
+    return { ok: false, error: "Supabase not configured" };
   }
 
-  // Create local user object
-  const newUser: HabitUser = {
-    id: crypto.randomUUID?.() || Date.now().toString(),
-    email: email.trim().toLowerCase(),
-    name: name.trim(),
-    habits: [],
-    onboardingComplete: false,
-    created_at: new Date().toISOString(),
-  };
-
-  // If Supabase is configured, save to database via backend endpoint
-  if (isSupabaseConfigured() && supabase) {
-    try {
-      // Get the session token from Supabase auth
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-      let headers: Record<string, string> = { "Content-Type": "application/json" };
-
-      // Include JWT token if available for better security
-      if (!sessionError && session?.access_token) {
-        headers["Authorization"] = `Bearer ${session.access_token}`;
-      }
-
-      // Call backend endpoint to create user profile
-      const response = await fetch("/api/users/create-profile", {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ email, name }),
-      });
-
-      const result = await response.json();
-
-      if (!result.success) {
-        console.error("Failed to create profile via backend:", result.error);
-        // Still create locally if backend fails
-      } else if (result.userId) {
-        // Update with Supabase-generated ID if successful
-        newUser.id = result.userId;
-        console.log("User profile created successfully:", result.userId);
-      }
-    } catch (err) {
-      console.error("Error calling create-profile endpoint:", err);
-      // Continue with local storage fallback
+  try {
+    // Create user profile in database
+    const saveResult = await saveUserProfile(email, name);
+    
+    if (saveResult.error || !saveResult.data) {
+      console.error("Failed to save profile:", saveResult.error);
+      return { ok: false, error: "Failed to save profile to Supabase" };
     }
+
+    const newUser: HabitUser = {
+      id: saveResult.data.id,
+      email: email.trim().toLowerCase(),
+      name: name.trim(),
+      habits: [],
+      onboardingComplete: false,
+      created_at: saveResult.data.created_at,
+    };
+
+    return { ok: true, user: newUser };
+  } catch (err) {
+    console.error("Error creating user account:", err);
+    return { ok: false, error: "Failed to create user account" };
   }
-
-  // Save to local storage
-  users.push(newUser);
-  saveUsers(users);
-  saveActiveUser(newUser);
-
-  return { ok: true, user: newUser };
-}
-
-export function createUserAccount(name: string, email: string): AuthResult {
-  const users = getStoredUsers();
-
-  // Check if email already exists
-  if (findUserIndex(users, email) !== -1) {
-    return { ok: false, error: "User already exists" };
-  }
-
-  const newUser: HabitUser = {
-    id: crypto.randomUUID?.() || Date.now().toString(),
-    email: email.trim().toLowerCase(),
-    name: name.trim(),
-    habits: [],
-    onboardingComplete: false,
-    created_at: new Date().toISOString(),
-  };
-
-  users.push(newUser);
-  saveUsers(users);
-  saveActiveUser(newUser);
-
-  // Also save to Supabase if configured (non-blocking)
-  if (isSupabaseConfigured()) {
-    saveUserProfile(email, name).catch(err => {
-      console.error("Failed to save profile to Supabase:", err);
-    });
-  }
-
-  return { ok: true, user: newUser };
-}
-
-export function authenticateUser(email: string): AuthResult {
-  const users = getStoredUsers();
-  const userIndex = findUserIndex(users, email);
-
-  if (userIndex === -1) {
-    return { ok: false, error: "User not found" };
-  }
-
-  const user = users[userIndex];
-  saveActiveUser(user);
-  return { ok: true, user };
 }
 
 /**
  * Load user data from Supabase
  */
 export async function loadUserFromSupabase(email: string): Promise<AuthResult> {
-  if (!isSupabaseConfigured()) {
+  if (!isSupabaseConfigured() || !supabase) {
     return { ok: false, error: "Supabase not configured" };
   }
 
   try {
     // Get user profile
-    const { data: profileData, error: profileError } = await getUserProfile(email);
-    if (profileError || !profileData) {
-      return { ok: false, error: "User profile not found in Supabase" };
-    }
-
-    // Get user habits
-    const { data: habitsData, error: habitsError } = await getUserHabits(email);
+    const profileResult = await getUserProfile(email);
     
-    const user: HabitUser = {
-      id: profileData.id,
-      email: profileData.email,
-      name: profileData.name,
-      habits: habitsData?.habits || [],
-      onboardingComplete: habitsData?.onboarding_complete || false,
-      created_at: profileData.created_at,
-    };
-
-    // Also save to local storage for offline access
-    const users = getStoredUsers();
-    const existingIndex = findUserIndex(users, email);
-    if (existingIndex !== -1) {
-      users[existingIndex] = user;
-    } else {
-      users.push(user);
+    if (profileResult.error && profileResult.error !== "Not found") {
+      console.error("Profile fetch error:", profileResult.error);
+      return { ok: false, error: "Failed to load profile" };
     }
-    saveUsers(users);
-    saveActiveUser(user);
+
+    // If profile doesn't exist, create a new one with the authenticated user's email
+    let profile = profileResult.data;
+    if (!profile) {
+      console.log("Profile not found for new user, creating default profile...");
+      const createResult = await saveUserProfile(email, email.split('@')[0]); // Use email prefix as name
+      if (createResult.error || !createResult.data) {
+        console.error("Failed to create default profile:", createResult.error);
+        return { ok: false, error: "Failed to create user profile" };
+      }
+      profile = createResult.data;
+    }
+
+    // Get user habits (which now contains onboarding_complete status)
+    const habitsResult = await getUserHabits(email);
+    const habits = habitsResult.data?.habits || [];
+    const onboardingComplete = habitsResult.data?.onboarding_complete || false;
+
+    console.log("✅ User loaded:", {
+      email: profile.email,
+      name: profile.name,
+      habitsCount: habits.length,
+      onboardingComplete
+    });
+
+    const user: HabitUser = {
+      id: profile.id,
+      email: profile.email,
+      name: profile.name || "",
+      habits,
+      onboardingComplete,
+      created_at: profile.created_at,
+    };
 
     return { ok: true, user };
   } catch (err) {
-    console.error("Failed to load user from Supabase:", err);
+    console.error("Error loading user from Supabase:", err);
     return { ok: false, error: "Failed to load user data" };
   }
 }
 
-export function updateUserAccount(
+/**
+ * Update user account in Supabase
+ * Saves habits and onboarding status to user_habits table only
+ */
+export async function updateUserAccount(
   email: string,
-  updates: Partial<Pick<HabitUser, "habits" | "onboardingComplete">>,
-) {
-  const users = getStoredUsers();
-  const userIndex = findUserIndex(users, email);
-  
-  if (userIndex === -1) return null;
+  updates: { habits?: HabitItem[]; onboardingComplete?: boolean; name?: string }
+): Promise<{ ok: boolean; user?: HabitUser; error?: string }> {
+  if (!isSupabaseConfigured() || !supabase) {
+    console.warn("Supabase not configured - cannot update user account");
+    return { ok: false, error: "Supabase not configured" };
+  }
 
-  const currentUser = users[userIndex];
-  const nextUser: HabitUser = {
-    ...currentUser,
-    ...updates,
+  try {
+    // Get current profile to preserve name
+    const profileResult = await getUserProfile(email);
+    const currentName = profileResult.data?.name || email.split('@')[0];
+
+    let saveError: string | undefined;
+
+    // Only save habits to user_habits table (which now contains onboarding_complete)
+    if (updates.habits !== undefined || updates.onboardingComplete !== undefined) {
+      console.log("💾 Saving habits and onboarding status to user_habits...");
+      const result = await saveUserHabits(
+        email,
+        updates.habits || [],
+        updates.onboardingComplete || false
+      );
+      if (result.error) {
+        saveError = String(result.error);
+        console.error("❌ Failed to save habits:", result.error);
+      } else {
+        console.log("✅ Habits saved successfully");
+      }
+    }
+
+    // Update profile name if provided (separate operation)
+    if (updates.name && updates.name !== currentName) {
+      console.log("💾 Updating user name...");
+      const result = await saveUserProfile(email, updates.name);
+      if (result.error) {
+        saveError = saveError || String(result.error);
+        console.error("❌ Failed to update name:", result.error);
+      } else {
+        console.log("✅ Name updated successfully");
+      }
+    }
+
+    // Create user object to return for immediate local state updates
+    const user: HabitUser = {
+      id: crypto.randomUUID?.() || Date.now().toString(),
+      email,
+      name: updates.name || currentName,
+      habits: updates.habits || [],
+      onboardingComplete: updates.onboardingComplete || false,
+      created_at: new Date().toISOString(),
+    };
+
+    return saveError ? { ok: false, error: saveError } : { ok: true, user };
+  } catch (err) {
+    console.error("Error updating user account:", err);
+    return { ok: false, error: String(err) };
+  }
+}
+
+/**
+ * Complete onboarding and save initial habits
+ */
+export async function completeUserOnboarding(
+  email: string,
+  habits: HabitItem[]
+): Promise<AuthResult> {
+  if (!isSupabaseConfigured() || !supabase) {
+    return { ok: false, error: "Supabase not configured" };
+  }
+
+  try {
+    console.log("🎯 Completing onboarding with habits:", habits.length);
+    const result = await completeOnboarding(email, habits);
+    
+    if (result.error || !result.data) {
+      console.error("Failed to complete onboarding:", result.error);
+      return { ok: false, error: "Failed to complete onboarding" };
+    }
+
+    console.log("✅ Onboarding completed successfully");
+    
+    // Load updated user data
+    return await loadUserFromSupabase(email);
+  } catch (err) {
+    console.error("Error completing onboarding:", err);
+    return { ok: false, error: "Failed to complete onboarding" };
+  }
+}
+
+/**
+ * Clear active user session
+ */
+export function clearActiveUser() {
+  // Session is managed by Supabase Auth, nothing to do here
+}
+
+/**
+ * Get active user from Supabase (for backward compatibility)
+ */
+export async function getActiveUser(): Promise<HabitUser | null> {
+  if (!isSupabaseConfigured() || !supabase) {
+    return null;
+  }
+
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    if (error || !user) {
+      return null;
+    }
+
+    const result = await loadUserFromSupabase(user.email!);
+    return result.ok ? result.user || null : null;
+  } catch (err) {
+    console.error("Error getting active user:", err);
+    return null;
+  }
+}
+
+/**
+ * Local storage key for users
+ */
+const STORAGE_KEY = "habit_users";
+
+/**
+ * Create user account in localStorage (legacy fallback)
+ */
+export function createUserAccount(name: string, email: string): HabitUser {
+  const user: HabitUser = {
+    id: crypto.randomUUID?.() || Date.now().toString(),
+    email: email.trim().toLowerCase(),
+    name: name.trim(),
+    habits: [],
+    onboardingComplete: false,
+    created_at: new Date().toISOString(),
   };
 
-  users[userIndex] = nextUser;
-  saveUsers(users);
+  // Store user in localStorage
+  const users = getStoredUsers();
+  users.push(user);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+
+  return user;
+}
+
+/**
+ * Authenticate user from localStorage (legacy fallback)
+ */
+export function authenticateUser(email: string): HabitUser | null {
+  const users = getStoredUsers();
+  const user = users.find(u => u.email === email.toLowerCase());
+  return user || null;
+}
+
+/**
+ * Get all stored users from localStorage (legacy fallback)
+ */
+export function getStoredUsers(): HabitUser[] {
+  if (typeof window === "undefined") return [];
   
-  const activeUser = getActiveUser();
-  if (activeUser && activeUser.email === email) {
-    saveActiveUser(nextUser);
-  }
-
-  // Also sync to Supabase if configured
-  if (isSupabaseConfigured()) {
-    saveUserHabits(email, nextUser.habits, nextUser.onboardingComplete).catch(err => {
-      console.error("Failed to sync habits to Supabase:", err);
-    });
-  }
-
-  return nextUser;
+  const stored = localStorage.getItem(STORAGE_KEY);
+  return stored ? JSON.parse(stored) : [];
 }

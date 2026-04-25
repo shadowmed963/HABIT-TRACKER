@@ -1,9 +1,10 @@
-import { Check, Grid3X3, Trash2 } from "lucide-react";
+import { Check, Grid3X3, Trash2, Flame } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 import { useInteractionAnimation, useHapticFeedback } from "@/hooks/use-animations";
 import { motion } from "framer-motion";
 import type { HabitItem } from "./habit-data";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
+import StreakBadge from "./StreakBadge";
 
 interface HabitGridProps {
   habits: HabitItem[];
@@ -11,6 +12,7 @@ interface HabitGridProps {
   onRemoveHabit: (habitId: string) => void;
   onMarkTodayComplete?: (habitId: string) => void;
   onSetNotification?: (habitId: string) => void;
+  removingHabitId?: string | null;
 }
 
 const CELL_SIZE_MOBILE = 32; // px — smaller on mobile to fit more days
@@ -22,6 +24,7 @@ export default function HabitGrid({
   onRemoveHabit,
   onMarkTodayComplete,
   onSetNotification,
+  removingHabitId,
 }: HabitGridProps) {
   const { t, language } = useLanguage();
   const today = 29; // Day 30 (0-indexed)
@@ -30,6 +33,22 @@ export default function HabitGrid({
   
   // Use responsive cell size
   const cellSize = typeof window !== 'undefined' && window.innerWidth < 640 ? CELL_SIZE_MOBILE : CELL_SIZE_DESKTOP;
+
+  const calculateStreak = useCallback((completions: boolean[]): number => {
+    let streak = 0;
+    for (let i = completions.length - 1; i >= 0; i--) {
+      if (completions[i]) streak++;
+      else break;
+    }
+    return streak;
+  }, []);
+
+  const habitsWithStreaks = useMemo(() => {
+    return habits.map((habit) => ({
+      ...habit,
+      streak: calculateStreak(habit.completions),
+    }));
+  }, [habits, calculateStreak]);
 
   const handleToggleWithAnimation = useCallback(
     (habitId: string, dayIndex: number) => {
@@ -108,10 +127,10 @@ export default function HabitGrid({
               {Array.from({ length: 30 }, (_, i) => i).map((dayIndex) => (
                 <th
                   key={`day-${dayIndex}`}
-                  className={`border-b px-0.5 py-1.5 text-center transition sm:px-1 sm:py-2 ${
+                  className={`border-b px-0.5 py-1.5 text-center transition-all sm:px-1 sm:py-2 ${
                     dayIndex === today
-                      ? "border-primary bg-primary/12 ring-1 ring-primary/30"
-                      : "border-border/30 bg-secondary/10"
+                      ? "border-primary/60 bg-gradient-to-b from-primary/20 to-primary/10 ring-1 ring-primary/40"
+                      : "border-border/30 bg-gradient-to-b from-secondary/15 to-secondary/5"
                   }`}
                   style={{ width: `${cellSize}px` }}
                 >
@@ -129,25 +148,38 @@ export default function HabitGrid({
 
           {/* Habit rows */}
           <tbody>
-            {habits.map((habit, habitIndex) => {
+            {habitsWithStreaks.map((habit, habitIndex) => {
               const completedCount = habit.completions.filter(Boolean).length;
+              const isRemoving = removingHabitId === habit.id;
 
               return (
                 <motion.tr
                   key={habit.id}
-                  className="border-b border-border/30 hover:bg-secondary/20 transition"
+                  className="border-b border-border/30 hover:bg-gradient-to-r hover:from-primary/5 hover:to-transparent transition-colors duration-200"
                   initial={{ opacity: 0, y: 8 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, ease: "easeOut", delay: habitIndex * 0.05 }}
+                  animate={
+                    isRemoving
+                      ? { opacity: 0, y: -8, height: 0 }
+                      : { opacity: 1, y: 0, height: "auto" }
+                  }
+                  transition={
+                    isRemoving
+                      ? { duration: 0.3, ease: "easeIn" }
+                      : { duration: 0.35, ease: "easeOut", delay: habitIndex * 0.05 }
+                  }
+                  exit={{ opacity: 0, y: -8 }}
                   viewport={{ once: true, margin: "-50px" }}
                 >
                   {/* Habit name column */}
-                  <td className="sticky left-0 z-10 min-w-[100px] bg-card/95 px-2 py-3 sm:min-w-[140px] sm:px-3 sm:py-4">
+                  <td className="sticky left-0 z-10 min-w-[100px] bg-gradient-to-r from-card/98 to-card/95 px-2 py-3 sm:min-w-[140px] sm:px-3 sm:py-4">
                     <div className="flex items-center justify-between gap-1.5 sm:gap-2">
                       <div className="min-w-0 flex-1">
-                        <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm">
-                          {habit.name}
-                        </h3>
+                        <div className="flex items-center gap-2 mb-0.5">
+                          <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm">
+                            {habit.name}
+                          </h3>
+                          <StreakBadge streak={habit.streak} size="sm" animated={habit.streak > 0} />
+                        </div>
                         <div className="mt-0.5 flex items-center gap-1 sm:mt-1 sm:gap-2">
                           <p className="truncate text-[10px] text-primary font-medium sm:text-xs">
                             {habit.cadence}
@@ -210,32 +242,37 @@ export default function HabitGrid({
                         <motion.button
                           type="button"
                           onClick={() => handleToggleWithAnimation(habit.id, dayIndex)}
-                          className={`mx-auto flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold transition sm:h-9 sm:w-9 ${
+                          className={`mx-auto flex h-8 w-8 items-center justify-center rounded-lg border text-xs font-bold transition-all sm:h-9 sm:w-9 ${
                             isDone
-                              ? "border-emerald-500 bg-emerald-50 text-emerald-600"
-                              : "border-border/50 bg-popover text-muted-foreground hover:border-primary/40 hover:bg-primary/5"
+                              ? "border-emerald-400/60 bg-gradient-to-br from-emerald-500/20 to-emerald-600/10 text-emerald-300 shadow-lg shadow-emerald-500/10"
+                              : "border-border/50 bg-gradient-to-br from-popover to-popover/50 text-muted-foreground hover:border-primary/60 hover:bg-gradient-to-br hover:from-primary/15 hover:to-primary/5"
                           }`}
                           aria-label={`Toggle day ${dayIndex + 1} for ${habit.name}`}
-                          whileHover={{ scale: 1.08 }}
-                          whileTap={{ scale: 0.92 }}
+                          whileHover={{
+                            scale: 1.1,
+                            boxShadow: isDone
+                              ? "0 8px 16px rgba(16, 185, 129, 0.25)"
+                              : "0 8px 16px rgba(59, 130, 246, 0.15)",
+                          }}
+                          whileTap={{ scale: 0.88 }}
                           animate={
                             isAnimating
                               ? {
-                                  scale: [1, 1.1, 1],
+                                  scale: [1, 1.12, 1],
                                   boxShadow: [
-                                    "0 0 0 0px rgba(16, 185, 129, 0.6)",
-                                    "0 0 0 8px rgba(16, 185, 129, 0.1)",
+                                    "0 0 0 0px rgba(16, 185, 129, 0.8)",
+                                    "0 0 0 10px rgba(16, 185, 129, 0.2)",
                                     "0 0 0 0px rgba(16, 185, 129, 0)",
                                   ],
                                 }
                               : isDone
                               ? {
-                                  boxShadow: "0 4px 12px rgba(16, 185, 129, 0.15)",
+                                  boxShadow: "0 6px 16px rgba(16, 185, 129, 0.2)",
                                 }
                               : {}
                           }
                           transition={{
-                            duration: 0.3,
+                            duration: 0.35,
                             ease: "easeOut",
                           }}
                         >

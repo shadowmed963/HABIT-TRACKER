@@ -10,12 +10,16 @@ export default function ChartPage() {
   const [habits, setHabits] = useState<HabitItem[]>([]);
 
   useEffect(() => {
-    const active = getActiveUser();
-    if (!active) {
-      navigate("/");
-      return;
-    }
-    setHabits(active.habits || []);
+    const loadActiveUser = async () => {
+      const active = await getActiveUser();
+      if (!active) {
+        navigate("/");
+        return;
+      }
+      setHabits(active.habits || []);
+    };
+
+    loadActiveUser();
   }, [navigate]);
 
   return (

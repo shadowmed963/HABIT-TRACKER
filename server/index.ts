@@ -28,18 +28,22 @@ export function createServer() {
   // User creation endpoint (uses service role key to bypass RLS)
   app.post("/api/users/create-profile", handleCreateUser);
 
-  // Serve static files from dist/spa (production build)
-  const spaDir = path.join(__dirname, "..", "dist", "spa");
-  app.use(express.static(spaDir, { maxAge: "1h" }));
+  // Only add static file serving and SPA fallback in production mode
+  // In dev mode, Vite handles this via its own middleware
+  if (process.env.NODE_ENV === "production") {
+    // Serve static files from dist/spa (production build)
+    const spaDir = path.join(__dirname, "..", "dist", "spa");
+    app.use(express.static(spaDir, { maxAge: "1h" }));
 
-  // SPA fallback: serve index.html for non-API routes
-  app.get("*", (_req, res) => {
-    res.sendFile(path.join(spaDir, "index.html"), {
-      headers: {
-        "Cache-Control": "no-cache",
-      },
+    // SPA fallback: serve index.html for non-API routes
+    app.get("/*", (_req, res) => {
+      res.sendFile(path.join(spaDir, "index.html"), {
+        headers: {
+          "Cache-Control": "no-cache",
+        },
+      });
     });
-  });
+  }
 
   return app;
 }

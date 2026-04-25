@@ -10,17 +10,27 @@ export default function GridPage() {
   const [habits, setHabits] = useState<HabitItem[]>([]);
 
   useEffect(() => {
-    const active = getActiveUser();
-    if (!active) {
-      navigate("/");
-      return;
-    }
-    setHabits(active.habits || []);
+    const loadActiveUser = async () => {
+      const active = await getActiveUser();
+      if (!active) {
+        navigate("/");
+        return;
+      }
+      setHabits(active.habits || []);
+    };
+
+    loadActiveUser();
   }, [navigate]);
 
   useEffect(() => {
-    const active = getActiveUser();
-    if (active) updateUserAccount(active.email, { habits, onboardingComplete: (active as any).onboardingComplete });
+    const saveData = async () => {
+      const active = await getActiveUser();
+      if (active) {
+        updateUserAccount(active.email, { habits, onboardingComplete: true });
+      }
+    };
+
+    saveData();
   }, [habits]);
 
   const toggleDay = (habitId: string, dayIndex: number) => {

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { TrendingUp, Sparkles } from "lucide-react";
 import { useLanguage } from "@/lib/language-context";
 
@@ -31,7 +31,7 @@ export default function EmptyState({ onCreateHabit }: EmptyStateProps) {
   const msg = messages[language as keyof typeof messages] || messages.en;
 
   // Animation variants for the container
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -43,7 +43,7 @@ export default function EmptyState({ onCreateHabit }: EmptyStateProps) {
   };
 
   // Animation for the icon
-  const iconVariants = {
+  const iconVariants: Variants = {
     hidden: { scale: 0, rotate: -180, opacity: 0 },
     visible: {
       scale: 1,
@@ -66,7 +66,7 @@ export default function EmptyState({ onCreateHabit }: EmptyStateProps) {
   };
 
   // Animation for text
-  const textVariants = {
+  const textVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,

@@ -4,24 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Habit Tracker</title>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#4f46e5" />
     <link rel="icon" type="image/png" href="/image.png" />
     <link rel="shortcut icon" type="image/png" href="/image.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="/image.png" />
+    <!-- Preload fonts for better performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script>
-      // Apply theme class early to avoid FOUC: respect saved `theme` ('light'|'dark'|'system')
+      // Force light mode early to avoid dark flashes.
       try {
-        const t = localStorage.getItem('theme');
-        if (t === 'dark') {
-          document.documentElement.classList.add('dark');
-          document.body && document.body.classList.add('dark');
-        } else if (t === 'light') {
-          document.documentElement.classList.remove('dark');
-          document.body && document.body.classList.remove('dark');
-        } else {
-          // 'system' or not set — follow OS preference
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          document.documentElement.classList.toggle('dark', prefersDark);
-          document.body && document.body.classList.toggle('dark', prefersDark);
-        }
+        document.documentElement.classList.remove('dark');
+        document.body && document.body.classList.remove('dark');
       } catch (e) {
         // ignore
       }
@@ -32,5 +31,14 @@
     <div id="root"></div>
 
     <script type="module" src="/client/App.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((error) => {
+            console.error('Service worker registration failed:', error);
+          });
+        });
+      }
+    </script>
   </body>
 </html>

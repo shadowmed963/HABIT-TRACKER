@@ -73,7 +73,7 @@ export default function ProgressOverview({ habits }: ProgressOverviewProps) {
     >
       <motion.div className="grid gap-4 sm:grid-cols-3" variants={containerVariants}>
         <motion.div
-          className={`${statBaseClass} bg-[linear-gradient(135deg,rgba(109,94,252,0.14),rgba(255,255,255,0.9))] dark:bg-[linear-gradient(135deg,rgba(109,94,252,0.25),rgba(60,50,100,0.6))]`}
+          className={`${statBaseClass} bg-[linear-gradient(135deg,rgba(109,94,252,0.14),rgba(226,232,240,0.5))] dark:bg-[linear-gradient(135deg,rgba(109,94,252,0.25),rgba(60,50,100,0.6))]`}
           variants={statCardVariants}
         >
           <div className="flex items-center justify-between">

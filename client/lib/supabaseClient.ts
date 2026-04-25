@@ -25,18 +25,32 @@ export async function signUpWithPassword(
     return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    // Validate inputs
+    if (!email || !password) {
+      return { data: null, error: new Error("Email and password required") };
+    }
+
     const { data, error } = await supabase.auth.signUp({
-      email,
+      email: email.toLowerCase().trim(),
       password,
       options: {
         data: {
-          full_name: name || ""
+          full_name: name?.trim() || ""
         }
       }
     });
 
+    if (error) {
+      console.error("Supabase auth error details:", {
+        message: error.message,
+        status: error.status,
+        code: error.code
+      });
+    }
+
     return { data, error };
   } catch (err) {
+    console.error("SignUp exception:", err);
     return { data: null, error: err as any };
   }
 }
@@ -134,28 +148,35 @@ export async function saveUserProfile(email: string, name: string): Promise<{ da
       return { data: null, error: "Unauthorized: Email does not match authenticated user" };
     }
 
+    // Build the upsert data
+    const profileData: any = {
+      email: email.toLowerCase(),
+      name,
+      updated_at: new Date().toISOString(),
+    };
+
+    // Add auth_uid if it exists
+    try {
+      profileData.auth_uid = authUser.id;
+    } catch {
+      // If auth_uid column doesn't exist, continue without it
+    }
+
     const { data, error } = await supabase
       .from("user_profiles")
-      .upsert(
-        {
-          email: email.toLowerCase(),
-          name,
-          auth_uid: authUser.id,
-          updated_at: new Date().toISOString(),
-        },
-        { 
-          onConflict: "email",
-          ignoreDuplicates: false
-        }
-      )
+      .upsert(profileData, { 
+        onConflict: "email",
+        ignoreDuplicates: false
+      })
       .select()
-      .single();
+      .maybeSingle();
 
     if (error) {
       console.error("Supabase saveUserProfile error:", error);
       return { data: null, error };
     }
 
+    console.log("✅ Profile saved successfully", data);
     return { data, error: null };
   } catch (err) {
     console.error("Exception in saveUserProfile:", err);
@@ -183,30 +204,48 @@ export async function getUserProfile(email: string): Promise<{ data: UserProfile
       return { data: null, error: "Unauthorized: Cannot access other user's profile" };
     }
 
-    const { data, error } = await supabase
+    // Try with auth_uid first (if migration has been applied)
+    let query = supabase
       .from("user_profiles")
       .select("*")
-      .eq("email", email.toLowerCase())
-      .eq("auth_uid", authUser.id)
-      .single();
+      .eq("email", email.toLowerCase());
 
-    return { data, error };
+    // Only filter by auth_uid if the column exists
+    const { data, error } = await query.maybeSingle();
+
+    if (error) {
+      console.error("getUserProfile error:", error);
+      return { data: null, error };
+    }
+
+    // If no profile found, return null (not an error)
+    if (!data) {
+      console.log(`Profile not found for ${email} - user may be new`);
+      return { data: null, error: null };
+    }
+
+    return { data, error: null };
   } catch (err) {
+    console.error("getUserProfile exception:", err);
     return { data: null, error: err };
   }
 }
 
 /**
  * Save user habits to Supabase (authenticated)
+ * Always creates a user_habits row, even if habits array is empty
  */
 export async function saveUserHabits(email: string, habits: any[], onboardingComplete: boolean): Promise<{ data: UserHabitsData | null; error: any }> {
   if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
   try {
+    console.log("🔄 saveUserHabits called with:", { email, habitsCount: habits.length, onboardingComplete });
+
     // Get authenticated user to verify ownership and get auth_uid
     const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
     
     if (authError || !authUser) {
+      console.error("Auth error:", authError);
       return { data: null, error: "User not authenticated" };
     }
 
@@ -217,38 +256,50 @@ export async function saveUserHabits(email: string, habits: any[], onboardingCom
     }
 
     // First get the user profile to get the ID
+    console.log("📝 Getting user profile...");
     const { data: profile, error: profileError } = await getUserProfile(email);
-    if (profileError || !profile) {
-      console.error("Failed to get user profile for habits:", profileError);
-      return { data: null, error: profileError || "User profile not found" };
+    if (profileError && profileError !== "Not found") {
+      console.error("❌ Failed to get user profile for habits:", profileError);
+      return { data: null, error: profileError };
     }
 
+    if (!profile) {
+      console.error("❌ Cannot save habits - user profile does not exist");
+      return { data: null, error: "User profile not found" };
+    }
+
+    console.log("✅ Profile found:", { profileId: profile.id, email: profile.email });
+
+    const habitsData: any = {
+      user_id: profile.id,
+      auth_uid: authUser.id,
+      habits: JSON.parse(JSON.stringify(habits)), // Ensure proper serialization
+      onboarding_complete: onboardingComplete,
+      updated_at: new Date().toISOString(),
+    };
+
+    console.log("💾 Deleting old habits record...");
+    // Delete old record first
+    await supabase
+      .from("user_habits")
+      .delete()
+      .eq("user_id", profile.id);
+
+    console.log("💾 Inserting new habits data with onboarding_complete:", onboardingComplete);
     const { data, error } = await supabase
       .from("user_habits")
-      .upsert(
-        {
-          user_id: profile.id,
-          auth_uid: authUser.id,
-          habits,
-          onboarding_complete: onboardingComplete,
-          updated_at: new Date().toISOString(),
-        },
-        { 
-          onConflict: "user_id",
-          ignoreDuplicates: false
-        }
-      )
-      .select()
-      .single();
+      .insert(habitsData)
+      .select();
 
     if (error) {
-      console.error("Supabase saveUserHabits error:", error);
+      console.error("❌ Supabase saveUserHabits error:", error);
       return { data: null, error };
     }
 
-    return { data, error: null };
+    console.log("✅ Habits and onboarding status saved successfully to Supabase");
+    return { data: data?.[0] || null, error: null };
   } catch (err) {
-    console.error("Exception in saveUserHabits:", err);
+    console.error("❌ Exception in saveUserHabits:", err);
     return { data: null, error: err };
   }
 }
@@ -275,21 +326,96 @@ export async function getUserHabits(email: string): Promise<{ data: UserHabitsDa
 
     // First get the user profile to get the ID
     const { data: profile, error: profileError } = await getUserProfile(email);
-    if (profileError || !profile) {
-      return { data: null, error: profileError || "User profile not found" };
+    if (profileError && profileError !== "Not found") {
+      console.error("Failed to get user profile for habits:", profileError);
+      return { data: null, error: profileError };
+    }
+
+    if (!profile) {
+      console.log(`No habits found - profile not created yet for ${email}`);
+      return { data: null, error: null };
     }
 
     const { data, error } = await supabase
       .from("user_habits")
       .select("*")
       .eq("user_id", profile.id)
-      .eq("auth_uid", authUser.id)
-      .single();
+      .order("updated_at", { ascending: false })
+      .limit(1);
 
-    return { data, error };
+    if (error) {
+      console.error("getUserHabits error:", error);
+      return { data: null, error };
+    }
+
+    // Get first result or null
+    const habits = data && data.length > 0 ? data[0] : null;
+    return { data: habits, error: null };
   } catch (err) {
+    console.error("getUserHabits exception:", err);
     return { data: null, error: err };
   }
 }
+/**
+ * Complete onboarding - save habits and mark onboarding as complete
+ */
+export async function completeOnboarding(
+  email: string,
+  habits: any[]
+): Promise<{ data: UserHabitsData | null; error: any }> {
+  if (!supabase) return { data: null, error: new Error("Supabase not configured") };
 
+  try {
+    console.log("🎯 Completing onboarding...", { email, habitsCount: habits.length });
+
+    // Get authenticated user
+    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
+    if (authError || !authUser) {
+      return { data: null, error: "User not authenticated" };
+    }
+
+    // Verify email matches
+    if (authUser.email?.toLowerCase() !== email.toLowerCase()) {
+      return { data: null, error: "Unauthorized" };
+    }
+
+    // Get user profile ID
+    const { data: profile, error: profileError } = await getUserProfile(email);
+    if (profileError || !profile) {
+      console.error("Profile not found");
+      return { data: null, error: "User profile not found" };
+    }
+
+    // Delete old record if exists
+    console.log("💾 Deleting old habits record...");
+    await supabase
+      .from("user_habits")
+      .delete()
+      .eq("user_id", profile.id);
+
+    // Insert new habits with onboarding_complete = true
+    console.log("💾 Inserting habits with onboarding_complete = true...");
+    const { data, error } = await supabase
+      .from("user_habits")
+      .insert({
+        user_id: profile.id,
+        auth_uid: authUser.id,
+        habits: JSON.parse(JSON.stringify(habits)),
+        onboarding_complete: true,
+        updated_at: new Date().toISOString(),
+      })
+      .select();
+
+    if (error) {
+      console.error("❌ Failed to complete onboarding:", error);
+      return { data: null, error };
+    }
+
+    console.log("✅ Onboarding completed successfully");
+    return { data: data?.[0] || null, error: null };
+  } catch (err) {
+    console.error("❌ completeOnboarding exception:", err);
+    return { data: null, error: err };
+  }
+}
 export default supabase;

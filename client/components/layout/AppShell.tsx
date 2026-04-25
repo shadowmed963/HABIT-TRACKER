@@ -9,14 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ThemeToggle from "@/components/ui/theme-toggle";
 
 export default function AppShell({ children }: PropsWithChildren) {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, isTransitioning } = useLanguage();
   // Theme is managed by ThemeProvider (useTheme) — toggle UI is provided below
 
   return (
-    <div className="theme-transition min-h-screen bg-background text-foreground" dir={language === "ar" ? "rtl" : "ltr"}>
+    <div className={`theme-transition min-h-screen bg-background text-foreground transition-opacity duration-300 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
       <div className="mx-auto flex min-h-screen w-full max-w-[28rem] flex-col px-3 pb-6 pt-3 sm:max-w-4xl sm:px-6 sm:pb-8 sm:pt-4 lg:max-w-6xl">
         <header className="mb-4 rounded-[20px] border border-border/60 bg-card/80 px-3 py-2.5 shadow-[0_24px_80px_rgba(77,73,122,0.12)] backdrop-blur-xl sm:mb-6 sm:px-6 sm:py-4 sm:rounded-[28px]">
           <div className="flex items-center justify-between gap-2 sm:gap-4">
@@ -39,8 +38,6 @@ export default function AppShell({ children }: PropsWithChildren) {
                 <Sparkles className="h-3.5 w-3.5 text-primary" />
                 <span className="text-xs">{t.header.aiHabitGuide}</span>
               </div>
-
-              <ThemeToggle />
 
               <button
                 type="button"

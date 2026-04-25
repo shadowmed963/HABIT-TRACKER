@@ -1,0 +1,206 @@
+﻿client/components/habit-tracker/ProgressChart.tsx(14,29): error TS2307: Cannot find module '@/lib/language-context' or its corresponding type declarations.
+client/components/habit-tracker/ProgressChart.tsx(140,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(153,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(160,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(168,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(175,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(177,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(178,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(179,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(185,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(188,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(200,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(225,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(230,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(231,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(237,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(243,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(244,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(248,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(249,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(250,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(251,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(254,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(259,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(264,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(269,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(278,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(296,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(302,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(305,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(307,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(311,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(315,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(319,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/components/habit-tracker/ProgressChart.tsx(320,30): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(13,27): error TS2307: Cannot find module '@/components/premium/AddHabitModal' or its corresponding type declarations.
+client/pages/Index.tsx(14,28): error TS2307: Cannot find module '@/components/premium/ConfettiEffect' or its corresponding type declarations.
+client/pages/Index.tsx(15,43): error TS2307: Cannot find module '@/components/premium/ToastNotification' or its corresponding type declarations.
+client/pages/Index.tsx(16,42): error TS2307: Cannot find module '@/components/habit-tracker/AuthPanel' or its corresponding type declarations.
+client/pages/Index.tsx(17,25): error TS2307: Cannot find module '@/components/habit-tracker/AIHabitQuiz' or its corresponding type declarations.
+client/pages/Index.tsx(18,23): error TS2307: Cannot find module '@/components/habit-tracker/HabitGrid' or its corresponding type declarations.
+client/pages/Index.tsx(19,27): error TS2307: Cannot find module '@/components/habit-tracker/ProgressChart' or its corresponding type declarations.
+client/pages/Index.tsx(20,21): error TS6142: Module './Landing' was resolved to 'C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/client/pages/Landing.tsx', but '--jsx' is not set.
+client/pages/Index.tsx(31,8): error TS2307: Cannot find module '@/components/habit-tracker/habit-data' or its corresponding type declarations.
+client/pages/Index.tsx(42,8): error TS2307: Cannot find module '@/components/habit-tracker/user-storage' or its corresponding type declarations.
+client/pages/Index.tsx(47,8): error TS2307: Cannot find module '@/lib/supabaseClient' or its corresponding type declarations.
+client/pages/Index.tsx(48,22): error TS2307: Cannot find module '@/lib/supabaseClient' or its corresponding type declarations.
+client/pages/Index.tsx(49,22): error TS2307: Cannot find module '@/components/layout/AppShell' or its corresponding type declarations.
+client/pages/Index.tsx(81,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(87,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(88,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(89,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(90,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(91,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(92,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(93,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(95,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(96,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(97,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(98,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(102,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(103,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(104,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(105,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(107,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(108,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(109,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(112,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(113,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(114,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(115,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(117,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(118,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(119,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(121,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(122,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(123,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(126,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(127,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(128,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(136,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(142,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(143,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(144,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(145,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(147,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(149,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(150,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(151,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(152,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(153,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(154,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(155,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(158,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(159,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(160,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(169,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(186,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(192,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(193,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(194,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(195,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(197,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(200,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(201,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(202,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(203,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(204,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(205,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(206,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(207,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(208,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(211,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(218,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(219,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(220,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(221,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(222,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(223,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(224,21): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(240,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(246,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(247,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(248,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(249,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(251,9): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(253,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(260,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(261,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(262,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(263,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(264,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(266,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(273,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(274,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(650,12): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(654,5): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(655,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(656,29): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(657,7): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(659,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(660,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(661,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(662,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(666,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(668,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(669,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(670,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(674,11): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(675,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(676,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(677,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(679,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(680,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(681,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(682,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(683,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(685,17): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(686,19): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(690,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(702,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(708,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(711,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(717,15): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+client/pages/Index.tsx(721,13): error TS17004: Cannot use JSX unless the '--jsx' flag is provided.
+node_modules/recharts/types/cartesian/Area.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/Bar.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/Brush.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/CartesianAxis.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/CartesianGrid.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/ErrorBar.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/Line.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/ReferenceArea.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/ReferenceDot.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/ReferenceLine.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/cartesian/Scatter.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/chart/generateCategoricalChart.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/chart/Sankey.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/chart/SunburstChart.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/chart/Treemap.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/Customized.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/DefaultLegendContent.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/DefaultTooltipContent.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/Label.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/LabelList.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/Legend.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/ResponsiveContainer.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/Text.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/component/Tooltip.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/container/Layer.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/container/Surface.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/numberAxis/Funnel.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/Pie.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/PolarAngleAxis.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/PolarGrid.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/PolarRadiusAxis.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/Radar.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/polar/RadialBar.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Cross.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Polygon.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Rectangle.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Sector.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Symbols.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/shape/Trapezoid.d.ts(4,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+node_modules/recharts/types/util/BarUtils.d.ts(1,8): error TS1259: Module '"C:/Users/ok/Downloads/habit-grid-ai-76c (cloned) (cloned) (cloned) (2)/node_modules/@types/react/index"' can only be default-imported using the 'esModuleInterop' flag
+

@@ -2,12 +2,15 @@ import { Flame } from "lucide-react";
 import { motion } from "framer-motion";
 import type { HabitItem } from "./habit-data";
 import { useLanguage } from "@/lib/language-context";
+import StreakBadge from "./StreakBadge";
+import { CheckCircle2, Calendar } from "lucide-react";
 
 interface HabitCardsProps {
   habits: HabitItem[];
+  onMarkComplete?: (habitId: string) => void;
 }
 
-export default function HabitCards({ habits }: HabitCardsProps) {
+export default function HabitCards({ habits, onMarkComplete }: HabitCardsProps) {
   const { language } = useLanguage();
 
   if (habits.length === 0) return null;
@@ -26,6 +29,10 @@ export default function HabitCards({ habits }: HabitCardsProps) {
     return Math.round((completed / completions.length) * 100);
   };
 
+  const isTodayComplete = (habit: HabitItem): boolean => {
+    return habit.completions[29]; // Day 30 (index 29)
+  };
+
   return (
     <div
       className="scrollbar-hide -mx-3 overflow-x-auto px-3 sm:-mx-6 sm:px-6"
@@ -35,65 +42,77 @@ export default function HabitCards({ habits }: HabitCardsProps) {
         {habits.map((habit, index) => {
           const streak = calculateStreak(habit.completions);
           const completion = calculateCompletion(habit.completions);
+          const todayComplete = isTodayComplete(habit);
 
           return (
             <motion.div
               key={habit.id}
-              className="min-w-[140px] rounded-[16px] border border-border/50 bg-gradient-to-br from-card to-card/80 p-3 shadow-sm ring-1 ring-ring/20 sm:min-w-[160px] sm:p-4"
-              initial={{ opacity: 0, y: 8 }}
+              className={`min-w-[150px] rounded-[20px] border border-border/50 bg-gradient-to-br from-card/95 to-card/70 p-4 shadow-sm ring-1 ring-ring/20 hover:ring-primary/30 hover:border-primary/20 transition-all sm:min-w-[180px] sm:p-5 ${onMarkComplete ? "cursor-pointer" : ""}`}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.35, delay: index * 0.05 }}
-              whileHover={{ y: -2, shadow: "0 8px 24px rgba(0,0,0,0.1)" }}
+              transition={{ duration: 0.35, delay: index * 0.05, ease: "easeOut" }}
+              whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(34, 197, 94, 0.1)" }}
+              onClick={() => onMarkComplete?.(habit.id)}
+              role={onMarkComplete ? "button" : "presentation"}
+              tabIndex={onMarkComplete ? 0 : -1}
             >
-              {/* Habit name */}
-              <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm">
-                {habit.name}
-              </h3>
+              {/* Header with name and streak */}
+              <div className="flex items-start justify-between gap-2 mb-3">
+                <div className="flex-1 min-w-0">
+                  <h3 className="truncate text-xs font-semibold text-foreground sm:text-sm leading-tight">
+                    {habit.name}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-0.5 truncate">
+                    {habit.category}
+                  </p>
+                </div>
+                <StreakBadge streak={streak} size="sm" animated={streak > 0} />
+              </div>
 
-              {/* Completion % */}
-              <div className="mt-2 sm:mt-3">
-                <div className="mb-1 flex items-center justify-between">
-                  <span className="text-[10px] font-medium text-muted-foreground sm:text-xs">
-                    Completed
-                  </span>
-                  <span className="text-sm font-bold text-emerald-600 sm:text-base">
+              {/* Progress bar */}
+              <div className="mb-3">
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="text-xs font-medium text-muted-foreground">
                     {completion}%
                   </span>
+                  <span className="text-xs text-muted-foreground">
+                    {habit.completions.filter(Boolean).length}/{habit.completions.length}
+                  </span>
                 </div>
-                <div className="h-2.5 w-full overflow-hidden rounded-full bg-secondary/60">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-secondary/60">
                   <motion.div
                     className="h-full bg-gradient-to-r from-green-500 via-green-400 to-emerald-500 shadow-md"
                     initial={{ width: 0 }}
                     animate={{ width: `${completion}%` }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.05 }}
                   />
                 </div>
               </div>
 
-              {/* Streak */}
-              <div className="mt-3 flex items-center gap-1.5 sm:mt-4">
-                <motion.div
-                  animate={streak > 0 ? { rotate: [0, 20, -20, 0] } : {}}
-                  transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-                >
-                  <Flame
-                    className={`h-4 w-4 ${
-                      streak > 0 ? "text-orange-500" : "text-muted-foreground/30"
-                    }`}
-                  />
-                </motion.div>
-                <span className="text-xs font-semibold sm:text-sm">
-                  <span className="text-orange-600">{streak}</span>
-                  <span className="text-muted-foreground/60 ml-0.5">day</span>
-                  {streak !== 1 && <span className="text-muted-foreground/60">s</span>}
-                </span>
+              {/* Today status */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">
+                    {todayComplete ? "Done today" : "Pending"}
+                  </span>
+                </div>
+                {todayComplete && (
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ type: "spring", stiffness: 200 }}
+                  >
+                    <CheckCircle2 className="h-4 w-4 text-green-500" />
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           );
         })}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }

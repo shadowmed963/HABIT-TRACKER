@@ -1,26 +1,30 @@
 export type MainGoal = "discipline" | "health" | "learning" | "spirituality" | "productivity" | "financial" | "social" | "creative";
-export type DailyTime = "5 min" | "10 min" | "20 min" | "30 min" | "45 min" | "60 min";
+export type DailyTime = "5 min" | "10 min" | "20 min" | "30+ min" | "45 min" | "60 min";
 export type PreferredType = "mental" | "physical" | "religious" | "study" | "mixed" | "mindfulness" | "work";
+export type Level = "beginner" | "intermediate" | "advanced";
 
 export interface QuizAnswers {
   goal?: MainGoal;
   dailyTime?: DailyTime;
   preferredType?: PreferredType;
+  level?: Level;
 }
 
 export interface QuizQuestion<T extends string> {
-  id: "goal" | "dailyTime" | "preferredType";
+  id: "goal" | "dailyTime" | "preferredType" | "level";
   title: string;
   subtitle: string;
   options: readonly T[];
 }
 
 export interface HabitSuggestion {
-  id: string;
+  id?: string;
   name: string;
   category: string;
-  cadence: string;
-  reason: string;
+  cadence?: string;
+  reason?: string;
+  description?: string;
+  estimatedTime?: string;
 }
 
 export interface HabitItem {
@@ -880,12 +884,12 @@ const COMBO_BONUSES: Record<string, HabitSuggestion> = {
 };
 
 const TIME_LIMITS: Record<DailyTime, number> = {
-  "5 min": 8,
-  "10 min": 9,
-  "20 min": 10,
-  "30 min": 10,
-  "45 min": 10,
-  "60 min": 10,
+  "5 min": 5,
+  "10 min": 5,
+  "20 min": 5,
+  "30+ min": 5,
+  "45 min": 5,
+  "60 min": 5,
 };
 
 /**
@@ -898,6 +902,84 @@ function shuffleArray<T>(array: T[]): T[] {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+function normalizeCadence(cadence: string) {
+  return cadence.toLowerCase();
+}
+
+function isShortHabit(habit: HabitSuggestion) {
+  const value = normalizeCadence(habit.cadence || habit.name || "");
+  return /5|min|daily|quick|short|minutes|أذكار|ذكر|read|walk|water|study/.test(value);
+}
+
+function isMediumHabit(habit: HabitSuggestion) {
+  const value = normalizeCadence(habit.cadence || habit.name || "");
+  return /20|min|30|min|weekly|times weekly|evening|morning|daily/.test(value);
+}
+
+function isLongHabit(habit: HabitSuggestion) {
+  const value = normalizeCadence(habit.cadence || habit.name || "");
+  return /30\+|45|min|60|min|hour|block|weekly|2-3|3-4/.test(value);
+}
+
+function getHabitPriority(habit: HabitSuggestion, answers: QuizAnswers) {
+  let score = 0;
+  const category = habit.category;
+  const cadence = normalizeCadence(habit.cadence || "");
+
+  if (answers.preferredType && TYPE_FILTER[answers.preferredType]?.includes(category)) {
+    score += 30;
+  }
+
+  if (answers.goal && GOAL_SUGGESTIONS[answers.goal]?.some((goalHabit) => goalHabit.id === habit.id)) {
+    score += 25;
+  }
+
+  if (answers.goal) {
+    if (answers.goal === "spirituality" && category === "Spirituality") score += 12;
+    if (answers.goal === "health" && category === "Health") score += 12;
+    if (answers.goal === "productivity" && category === "Productivity") score += 12;
+    if (answers.goal === "learning" && category === "Learning") score += 12;
+    if (answers.goal === "discipline" && category === "Discipline") score += 12;
+    if (answers.goal === "financial" && category === "Financial") score += 12;
+    if (answers.goal === "social" && category === "Social") score += 12;
+    if (answers.goal === "creative" && category === "Creative") score += 12;
+  }
+
+  if (answers.dailyTime) {
+    if (answers.dailyTime === "5 min" && isShortHabit(habit)) score += 18;
+    if (answers.dailyTime === "10 min" && isShortHabit(habit)) score += 15;
+    if (answers.dailyTime === "20 min" && isMediumHabit(habit)) score += 15;
+    if (answers.dailyTime === "30+ min" && isLongHabit(habit)) score += 18;
+    if (answers.dailyTime === "45 min" && isLongHabit(habit)) score += 16;
+    if (answers.dailyTime === "60 min" && isLongHabit(habit)) score += 16;
+  }
+
+  if (answers.level) {
+    if (answers.level === "beginner") {
+      if (cadence.includes("daily") || cadence.includes("5 min") || cadence.includes("10 min")) score += 15;
+      if (cadence.includes("weekly") || cadence.includes("3-4")) score -= 4;
+    }
+    if (answers.level === "intermediate") {
+      if (cadence.includes("daily") || cadence.includes("20 min") || cadence.includes("30 min")) score += 12;
+      if (cadence.includes("hour") || cadence.includes("week")) score += 4;
+    }
+    if (answers.level === "advanced") {
+      if (cadence.includes("hour") || cadence.includes("weekly") || cadence.includes("2-3") || cadence.includes("3-4")) score += 18;
+      if (cadence.includes("5 min") || cadence.includes("10 min")) score += 4;
+    }
+  }
+
+  if (habit.id === "prayer" || habit.id === "quran") {
+    score += 50;
+  }
+
+  if (habit.category === "Spirituality" && answers.goal === "spirituality") {
+    score += 10;
+  }
+
+  return score + Math.random() * 5;
 }
 
 /**
@@ -924,6 +1006,7 @@ function getHabitsForType(type: PreferredType): HabitSuggestion[] {
         ...PHYSICAL_HABITS_POOL,
         ...MENTAL_HABITS_POOL,
         ...STUDY_HABITS_POOL,
+        ...WORK_HABITS_POOL,
       ];
     default:
       return [];
@@ -931,32 +1014,50 @@ function getHabitsForType(type: PreferredType): HabitSuggestion[] {
 }
 
 export function buildHabitSuggestions(answers: QuizAnswers, t?: any): HabitSuggestion[] {
-  // Determine max suggestions based on daily time
-  const maxSuggestions = answers.dailyTime 
-    ? Math.min(TIME_LIMITS[answers.dailyTime], 10) 
-    : 10;
+  const maxSuggestions = 5;
 
-  let suggestions: HabitSuggestion[] = [];
+  const mustHave = [...RELIGIOUS_HABITS];
+  const bonusKey = answers.goal && answers.preferredType ? `${answers.goal}-${answers.preferredType}` : undefined;
+  const bonusHabit = bonusKey ? COMBO_BONUSES[bonusKey] : undefined;
 
-  // If a preferred type is selected, use type-specific pool
+  const pool: HabitSuggestion[] = [];
+
   if (answers.preferredType) {
-    const typeHabits = getHabitsForType(answers.preferredType);
-    const shuffled = shuffleArray(typeHabits);
-    suggestions = shuffled.slice(0, maxSuggestions);
-  } else if (answers.goal) {
-    // Fallback to goal-based suggestions if only goal is selected
-    let goalHabits = GOAL_SUGGESTIONS[answers.goal] || [];
-    suggestions = [...RELIGIOUS_HABITS, ...goalHabits];
-  } else {
-    // Default to religious habits
-    suggestions = RELIGIOUS_HABITS.slice(0, maxSuggestions);
+    pool.push(...getHabitsForType(answers.preferredType));
   }
 
-  // Deduplicate and limit final results
-  const deduped = dedupeSuggestions(suggestions);
-  const limited = deduped.slice(0, maxSuggestions);
+  if (answers.goal) {
+    pool.push(...(GOAL_SUGGESTIONS[answers.goal] || []));
+  }
 
-  return limited.length > 0 ? limited : RELIGIOUS_HABITS.slice(0, 2);
+  if (!answers.preferredType && !answers.goal) {
+    pool.push(...[...RELIGIOUS_HABITS_POOL, ...STUDY_HABITS_POOL, ...PHYSICAL_HABITS_POOL, ...MENTAL_HABITS_POOL, ...WORK_HABITS_POOL]);
+  }
+
+  if (bonusHabit) {
+    pool.push(bonusHabit);
+  }
+
+  const dedupedPool = dedupeSuggestions(pool).filter((habit) => !mustHave.some((required) => required.id === habit.id));
+
+  const suggestions = dedupedPool
+    .sort((a, b) => getHabitPriority(b, answers) - getHabitPriority(a, answers))
+    .slice(0, maxSuggestions - mustHave.length);
+
+  const result = [...mustHave, ...suggestions].slice(0, maxSuggestions);
+
+  if (result.length < maxSuggestions) {
+    const fallback = dedupeSuggestions([
+      ...RELIGIOUS_HABITS_POOL,
+      ...STUDY_HABITS_POOL,
+      ...PHYSICAL_HABITS_POOL,
+      ...MENTAL_HABITS_POOL,
+      ...WORK_HABITS_POOL,
+    ]).filter((habit) => !result.some((item) => item.id === habit.id));
+    result.push(...fallback.slice(0, maxSuggestions - result.length));
+  }
+
+  return result;
 }
 
 export function createHabitItem(suggestion: HabitSuggestion): HabitItem {
@@ -1060,10 +1161,12 @@ export function getWorstHabit(habits: HabitItem[]) {
   return { habit: worst, count: worstCount };
 }
 
-export function getCurrentStreakFromDay(habits: HabitItem[], dayIndex: number = 29) {
+export function getCurrentStreakFromDay(habits: HabitItem[], dayIndex?: number) {
+  // Use dynamic today index if not provided
+  const startDay = dayIndex !== undefined ? dayIndex : 29;
   let streak = 0;
 
-  for (let i = dayIndex; i >= 0; i -= 1) {
+  for (let i = startDay; i >= 0; i -= 1) {
     const dayCompleted = habits.filter((h) => h.completions[i]).length;
     const total = habits.length;
 
@@ -1096,9 +1199,7 @@ export function getBestStreakValue(habits: HabitItem[]) {
   return best;
 }
 
-export function getTodayCompleted(habits: HabitItem[]) {
-  return habits.filter((habit) => habit.completions[29]).length;
-}
+// Removed duplicate getTodayIndex - using the simpler version below at line 1174
 
 export function getLongestCurrentStreak(habits: HabitItem[]) {
   let best = 0;
@@ -1144,3 +1245,219 @@ function toTitleCase(value: string) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
+
+// ==========================================
+// Habit Calculation Helpers (NO DUPLICATION!)
+// ==========================================
+
+/** Get today's index in the 30-day grid (0-29, where 29 is today) */
+export const getTodayIndex = () => 29;
+
+/** Calculate current streak: consecutive days where ALL habits are complete */
+export const calculateCurrentStreak = (habits: HabitItem[]): number => {
+  if (!habits || habits.length === 0) return 0;
+
+  let streak = 0;
+  const today = getTodayIndex();
+
+  for (let i = today; i >= 0; i--) {
+    if (habits.every((h) => h.completions[i])) {
+      streak++;
+    } else {
+      break;
+    }
+  }
+
+  return streak;
+};
+
+/** Calculate best (longest) streak across entire history */
+export const calculateBestStreak = (habits: HabitItem[]): number => {
+  if (!habits || habits.length === 0) return 0;
+
+  let maxStreak = 0;
+  let currentStreak = 0;
+
+  for (let i = 0; i <= 29; i++) {
+    const dayComplete = habits.every((h) => h.completions[i]);
+    if (dayComplete) {
+      currentStreak++;
+      maxStreak = Math.max(maxStreak, currentStreak);
+    } else {
+      currentStreak = 0;
+    }
+  }
+
+  return maxStreak;
+};
+
+/** Calculate total completions across all habits */
+export const calculateCompletedCount = (habits: HabitItem[]): number => {
+  if (!habits) return 0;
+  return habits.reduce(
+    (total, habit) => total + habit.completions.filter(Boolean).length,
+    0
+  );
+};
+
+/** Calculate completion rate as percentage */
+export const calculateCompletionRate = (habits: HabitItem[]): number => {
+  if (!habits || habits.length === 0) return 0;
+
+  const totalPossible = habits.length * 30;
+  const completed = calculateCompletedCount(habits);
+
+  return Math.round((completed / totalPossible) * 100);
+};
+
+export function getWeeklyAverageCompletion(habits: HabitItem[], days = 7): number {
+  if (!habits || habits.length === 0) return 0;
+
+  const totalDays = Math.min(days, 30);
+  const rates = Array.from({ length: totalDays }, (_, offset) => {
+    const index = 30 - totalDays + offset;
+    const completed = habits.filter((habit) => habit.completions[index]).length;
+    return habits.length ? (completed / habits.length) * 100 : 0;
+  });
+
+  return Math.round(rates.reduce((sum, value) => sum + value, 0) / rates.length);
+}
+
+export function getBestDayInfo(habits: HabitItem[]) {
+  if (!habits || habits.length === 0) return null;
+
+  const dayRates = Array.from({ length: 30 }, (_, dayIndex) => {
+    const completed = habits.filter((habit) => habit.completions[dayIndex]).length;
+    const percentage = habits.length ? Math.round((completed / habits.length) * 100) : 0;
+    return { dayIndex, percentage };
+  });
+
+  const bestDay = dayRates.reduce((best, day) => {
+    if (day.percentage > best.percentage) return day;
+    return best;
+  }, dayRates[0]);
+
+  return {
+    dayIndex: bestDay.dayIndex,
+    label: `Day ${bestDay.dayIndex + 1}`,
+    percentage: bestDay.percentage,
+  };
+}
+
+export function getDaysSinceLastCompleted(habits: HabitItem[]) {
+  if (!habits || habits.length === 0) return 30;
+
+  for (let day = 29; day >= 0; day -= 1) {
+    if (habits.some((habit) => habit.completions[day])) {
+      return 29 - day;
+    }
+  }
+
+  return 30;
+}
+
+export function getWeakHabit(habits: HabitItem[]) {
+  if (!habits || habits.length === 0) return null;
+
+  let weakestHabit = habits[0];
+  let lowestRate = 100;
+
+  habits.forEach((habit) => {
+    const completed = habit.completions.filter(Boolean).length;
+    const rate = habit.completions.length ? Math.round((completed / habit.completions.length) * 100) : 0;
+    if (rate < lowestRate) {
+      lowestRate = rate;
+      weakestHabit = habit;
+    }
+  });
+
+  return {
+    habit: weakestHabit,
+    percentage: lowestRate,
+  };
+}
+
+/** Generate actionable weak habit suggestion */
+export const getActionableWeakHabitAdvice = (weakHabit: { habit: HabitItem; percentage: number } | null, inactiveDays: number, translations?: { [key: string]: string }): string => {
+  if (!weakHabit) return "Add habits to get personalized improvement tips.";
+
+  const { habit, percentage } = weakHabit;
+  
+  let template = "Try \"{habitName}\" today — even just 5 minutes counts!";
+  
+  if (translations) {
+    if (percentage === 0) {
+      template = translations.weakHabitZeroPercent || template;
+    } else if (percentage < 30) {
+      template = translations.weakHabitLow || "needs focus";
+    } else if (percentage < 60) {
+      template = translations.weakHabitMid || "at {percentage}%";
+    } else if (percentage < 80) {
+      template = translations.weakHabitHigh || "is close to strong";
+    } else {
+      template = translations.weakHabitStrong || "is solid";
+    }
+  } else {
+    if (percentage === 0) {
+      template = `💪 Try \"{habitName}\" today — even just 5 minutes counts!`;
+    } else if (percentage < 30) {
+      template = `⚡ \"{habitName}\" needs focus: aim for 3 days this week to rebuild.`;
+    } else if (percentage < 60) {
+      template = `📈 \"{habitName}\" at {percentage}% — add it to your daily routine.`;
+    } else if (percentage < 80) {
+      template = `✅ \"{habitName}\" is close to strong — one more completion this week!`;
+    } else {
+      template = `🎯 \"{habitName}\" is solid. Let's make it a 90%+ habit!`;
+    }
+  }
+  
+  return template
+    .replace('{habitName}', habit.name)
+    .replace('{percentage}', percentage.toString());
+};
+
+/** Get today's completion count: how many habits completed today */
+export const calculateTodayCompleted = (habits: HabitItem[]): number => {
+  if (!habits) return 0;
+
+  const today = getTodayIndex();
+  return habits.filter((h) => h.completions[today]).length;
+};
+
+/** Check if streak is at risk (no habits completed today) */
+export const isStreakAtRisk = (habits: HabitItem[], currentStreak: number): boolean => {
+  if (currentStreak === 0) return false;
+  
+  const today = getTodayIndex();
+  const completedToday = habits.filter((h) => h.completions[today]).length;
+  return completedToday === 0;
+};
+
+/** Alias for backward compatibility */
+export const getTodayCompleted = calculateTodayCompleted;
+
+/** Generate milestone storage key */
+export const getMilestoneStorageKey = (days: number) => `milestone-${days}`;
+
+/** Calculate daily points earned for gamification */
+export const calculateDailyPoints = (habits: HabitItem[], currentStreak: number, completed: number, total: number): number => {
+  if (!habits || total === 0) return 0;
+  
+  let points = 0;
+
+  // Base points: 10 per completed habit
+  points += completed * 10;
+
+  // Streak bonus
+  if (currentStreak >= 7) points += 20; // Week+ streak bonus
+  else if (currentStreak >= 3) points += 10; // 3+ day streak bonus
+
+  // Perfect day bonus (all habits completed)
+  if (completed === total && total > 0) points += 15;
+
+  // Weekly momentum bonus (75%+ average)
+  const weeklyAverage = getWeeklyAverageCompletion(habits, 7);
+  if (weeklyAverage >= 75) points += 5;
+
+  return Math.max(0, points);
+};
